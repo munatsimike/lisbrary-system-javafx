@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="vBox" alignment="TOP_CENTER" maxWidth="-Infinity" spacing="20.0" stylesheets="@../../../css/style.css"
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.LoginController">
+    <fx:include  fx:id="notification" source="notification.fxml"/>
+
+    <Label text="Login" textFill="#0000005f">
+        <font>
+            <Font size="25.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="usernameTxtField" promptText="Username" text=""/>
+    <PasswordField fx:id="passwordTxtField" promptText="Password" text="RukudzoM7*"/>
+    <Button onAction="#onLoginButtonClick" styleClass="login-button" text="Login"/>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+    <Label fx:id="errorLabel"/>
+</VBox>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MemberController">
+    <fx:include fx:id="search" source="search-form.fxml" />
+    <TableView fx:id="membersTable" maxHeight="235" minHeight="235" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="150" text="Identifier">
+                <cellValueFactory>
+                    <PropertyValueFactory property="identifier" />
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="150" text="First Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="firstName" />
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="250" text="Last Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="lastName" />
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="200" text="Birth Date">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dateOfBirth" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+    </TableView>
+    <fx:include fx:id="form" source="bottom-form.fxml" />
+</VBox>

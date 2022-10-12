@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox  maxHeight="67.0"  styleClass="black-background-color"
+      stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MenuController">
+
+    <HBox alignment="CENTER">
+        <ImageView fitHeight="50.0" fitWidth="50.0">
+            <Image url="@../../../img/library.png"/>
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </ImageView>
+
+        <Label prefHeight="25.0" prefWidth="293.0" styleClass="h1" text="Library system">
+            <HBox.margin>
+                <Insets left="7.0"/>
+            </HBox.margin>
+        </Label>
+    </HBox>
+
+    <HBox alignment="BOTTOM_RIGHT" minHeight="70" maxHeight="70" spacing="2">
+        <fx:define>
+            <ToggleGroup fx:id="menuToggleGroup"/>
+        </fx:define>
+
+        <ToggleButton fx:id="lendingReceiving"  styleClass="menu-toggle-button" text="Lending/Receiving"
+                      toggleGroup="$menuToggleGroup"
+                      onAction="#onActionHandler"/>
+        <ToggleButton fx:id="collection"  styleClass="menu-toggle-button" text="Collection" toggleGroup="$menuToggleGroup"
+                      onAction="#onActionHandler"/>
+        <ToggleButton fx:id="members"  styleClass="menu-toggle-button" text="Members" toggleGroup="$menuToggleGroup"
+                      onAction="#onActionHandler"/>
+        <HBox.margin>
+            <Insets right="15.0"/>
+        </HBox.margin>
+    </HBox>
+
+</HBox>

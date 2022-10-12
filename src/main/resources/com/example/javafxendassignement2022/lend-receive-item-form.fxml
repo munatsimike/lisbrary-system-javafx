@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox stylesheets="@../../../css/style.css"
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController"
+      styleClass="light-blue-background-color" maxHeight="380" minHeight="380">
+    <padding>
+        <Insets bottom="25.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <VBox prefWidth="365" spacing="20.0" styleClass="white-background-color" alignment="CENTER">
+        <TextField promptText="Item Code"/>
+        <TextField promptText="Member identifier"/>
+
+        <Button styleClass="lend-receive-button" text="Lend Item"/>
+        <HBox.margin>
+            <Insets right="12.0"/>
+        </HBox.margin>
+    </VBox>
+
+    <VBox prefWidth="365" spacing="20.0" styleClass="white-background-color" alignment="CENTER">
+        <TextField promptText="Item Code"/>
+        <Button styleClass="lend-receive-button" text="Receive Item"/>
+        <HBox.margin>
+            <Insets left="12.0"/>
+        </HBox.margin>
+    </VBox>
+</HBox>

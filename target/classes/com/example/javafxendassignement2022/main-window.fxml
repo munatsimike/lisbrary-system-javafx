@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MainWindowController">
+    <fx:include fx:id="menu" source="menu.fxml" />
+    <HBox alignment="CENTER_LEFT" maxHeight="50" minHeight="50" styleClass="light-blue-background-color">
+        <Label fx:id="welcomeLabel" maxWidth="Infinity">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets left="15.0" />
+         </HBox.margin>
+        </Label>
+    </HBox>
+
+    <BorderPane fx:id="borderPane" maxHeight="350" prefHeight="350">
+        <fx:define>
+            <fx:include fx:id="lendReceiveForm" source="lend-receive-item-form.fxml" />
+        </fx:define>
+        <fx:define>
+            <fx:include fx:id="itemsTable" source="items-table.fxml" />
+        </fx:define>
+        <fx:define>
+            <fx:include fx:id="membersTable" source="members-table.fxml" />
+        </fx:define>
+    </BorderPane>
+</VBox>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.ItemController">
+    <fx:include fx:id="search" source="search-form.fxml"/>
+
+    <TableView maxHeight="235" minHeight="235" fx:id="itemsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="150" text="Item code">
+                <cellValueFactory>
+                    <PropertyValueFactory property="itemCode"/>
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="150" text="Available">
+                <cellValueFactory>
+                    <PropertyValueFactory property="available"/>
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="250" text="Title">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </TableColumn>
+
+            <TableColumn prefWidth="200" text="Author">
+                <cellValueFactory>
+                    <PropertyValueFactory property="author"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    <fx:include fx:id="form" source="bottom-form.fxml" />
+</VBox>

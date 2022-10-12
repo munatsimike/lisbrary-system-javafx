@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox  fx:id="hBoxParent" styleClass="error-label-container" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.NotificationController">
+    <Label fx:id="notificationLabel" maxHeight="35" minHeight="35" styleClass="notification-label">
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+        <padding>
+            <Insets left="10.0"/>
+        </padding>
+    </Label>
+</HBox>

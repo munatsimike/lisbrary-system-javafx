@@ -1,0 +1,111 @@
+
+.white-text-color, .button, .h1, .edit-cancel-button, .add-button, .delete-button {
+    -fx-text-fill: white;
+}
+
+.blue-background-color, .login-button, .lend-receive-button, .add-button {
+    -fx-background-color: #0d5ec5;
+}
+
+.grey-background-color, .edit-cancel-button {
+    -fx-background-color: grey;
+}
+
+.black-background-color, .menu {
+    -fx-background-color: black;
+}
+
+.light-blue-background-color {
+    -fx-background-color: #94bad5;
+}
+
+.red-background-color, .delete-button{
+    -fx-background-color: red;
+}
+
+.white-background-color {
+    -fx-background-color: white;
+}
+
+.red-text {
+    -fx-text-fill: red;
+}
+
+.menu {
+    -fx-max-height: 100;
+}
+
+.corner-radius, .menu-toggle-button {
+    -fx-background-radius: 0
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.menu-toggle-button {
+    -fx-max-height: 32;
+}
+
+.font-size-25, .h1 {
+    -fx-font-size: 25;
+}
+
+.font-size-14, .menu-toggle-button, .lend-receive-button {
+    -fx-font-size: 14;
+}
+
+.width-300, .lend-receive-item-text-field {
+    -fx-max-width: 300;
+}
+
+.pref-width-150, .lend-receive-button, .menu-toggle-button {
+    -fx-pref-width: 150;
+}
+
+.pref-width-100, .login-button, .delete-button, .edit-cancel-button, .add-button {
+    -fx-pref-width: 100;
+}
+
+.with-200, .password-field, .text-field {
+    -fx-max-width: 200;
+}
+
+.error-label-container {
+    -fx-background-radius: 5;
+}
+
+.notification-label{
+    -fx-font-size: 14;
+    -fx-text-fill: white;
+}
+
+.pref-width-50 {
+    -fx-max-width: 50;
+}
+
+.pref-height-30, .login-button, .edit-cancel-button, .add-button, .delete-button {
+    -fx-pref-height: 30;
+}
+
+.lend-receive-item-text-field {
+}
+
+.lend-receive-button {
+}
+
+.edit-cancel-button {
+}
+
+.add-button {
+}
+
+.delete-button {
+}
+
+.login-button {
+}
+
+.h1 {
+}
+

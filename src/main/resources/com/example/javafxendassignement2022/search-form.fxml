@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER_RIGHT" maxHeight="60" maxWidth="Infinity" minHeight="60" spacing="15"
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.SearchController" styleClass="light-blue-background-color">
+    <Label text="Search"/>
+    <TextField fx:id="searchTextField" onTextChange="#onTextChange" promptText="author, title">
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+        <HBox.margin>
+            <Insets right="15.0"/>
+        </HBox.margin>
+    </TextField>
+</HBox>
