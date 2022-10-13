@@ -5,20 +5,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class NotificationController{
+public class NotificationController {
     @FXML
     public HBox hBoxParent;
     @FXML
     private Label notificationLabel;
 
     public void setNotificationText(String text, MessageType messageType) {
-       notificationBackgroundColor(messageType);
+        notificationBackgroundColor(messageType);
         notificationLabel.setText(text);
         showHideLabel();
     }
 
     public void clearNotificationText() {
-        notificationLabel.setText(null);
+        if (notificationLabel != null) {
+            notificationLabel.setText(null);
+        }
     }
 
     private void showHideLabel() {
@@ -27,10 +29,10 @@ public class NotificationController{
         });
     }
 
-    private void notificationBackgroundColor(MessageType messageType){
-        if (messageType.equals(MessageType.Error)){
+    private void notificationBackgroundColor(MessageType messageType) {
+        if (messageType.equals(MessageType.Error)) {
             hBoxParent.setStyle("-fx-background-color: rgba(255,0,0,0.61)");
-        }else {
+        } else {
             hBoxParent.setStyle("-fx-background-color: rgba(0,128,0,0.62)");
         }
     }

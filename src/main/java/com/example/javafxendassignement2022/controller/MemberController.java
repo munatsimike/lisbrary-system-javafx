@@ -3,6 +3,8 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.MemberDatabase;
 import com.example.javafxendassignement2022.model.Member;
+import com.example.javafxendassignement2022.model.MessageType;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -21,7 +23,7 @@ public class MemberController extends BaseController implements Initializable {
     private ObservableList<Member> selectedMembers;
     private TableView.TableViewSelectionModel<Member> selectionModel;
     private final FilteredList<Member> filteredData;
-    private final MemberDatabase membersDatabase;
+    private final MemberDatabase memberDatabase;
 
     @FXML
     private TableView<Member> membersTable;
@@ -29,13 +31,17 @@ public class MemberController extends BaseController implements Initializable {
     private SearchController searchController;
     @FXML
     private FormController formController;
+    @FXML
+    private NotificationController notificationController;
+
     private AddEditMemberController addEditMemberController;
-    private final FXMLLoader loader;
+    private FXMLLoader loader;
 
     public MemberController() {
-        membersDatabase = new MemberDatabase();
-        filteredData = new FilteredList<>(membersDatabase.getMembers());
+        memberDatabase = new MemberDatabase();
+        filteredData = new FilteredList<>(memberDatabase.getMembers());
         loader = new FXMLLoader();
+
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,6 +53,7 @@ public class MemberController extends BaseController implements Initializable {
         clearTableSelection();
         searchQueryListener();
         formButtonListener();
+        clearNotification();
     }
 
     private void initMemberFormController() {
@@ -58,15 +65,25 @@ public class MemberController extends BaseController implements Initializable {
             e.printStackTrace();
         }
         addEditMemberController = loader.getController();
+        addEditMemberController.initDatabase(memberDatabase);
     }
 
     private void formButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
-            if (Objects.equals(newValue, formController.deleteButton.getText()) && selectedMembers.size() == 1) {
-                membersDatabase.deleteMember(selectedMembers.get(0).getIdentifier());
-            } else if (Objects.equals(newValue, formController.editButton.getText()) && selectedMembers.size() == 1) {
+            if (Objects.equals(newValue, formController.deleteButton.getText())) {
+                if (selectedMembers.size() == 1) {
+                    memberDatabase.deleteMember(selectedMembers.get(0).getIdentifier());
+                } else {
+                    notificationController.setNotificationText("No member selected, select a member to delete", MessageType.Error);
+                }
+            } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
-                    editMember(selectedMembers.get(0));
+                    if (selectedMembers.size() == 1) {
+                        editMember(selectedMembers.get(0));
+
+                    } else {
+                        notificationController.setNotificationText("No member selected, select a member to edit", MessageType.Error);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,6 +103,13 @@ public class MemberController extends BaseController implements Initializable {
         selectionModel = membersTable.getSelectionModel();
         selectedMembers = selectionModel.getSelectedItems();
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
+
+    }
+
+    private void clearNotification(){
+        selectedMembers.addListener((ListChangeListener<Member>) change -> {
+            notificationController.clearNotificationText();
+        });
     }
 
     // clear selected row

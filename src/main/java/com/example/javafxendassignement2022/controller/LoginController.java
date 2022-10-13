@@ -4,10 +4,6 @@ import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.UserDatabase;
 import com.example.javafxendassignement2022.model.MessageType;
 import com.example.javafxendassignement2022.model.User;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,11 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class LoginController {
+public class LoginController{
     @FXML
     public VBox vBox;
     @FXML
@@ -58,18 +53,8 @@ public class LoginController {
         mainWindowController.setWelcomeLabelText(loggedInUser);
         Scene scene = new Scene(root, 800, 500);
         Stage stage = (Stage) vBox.getScene().getWindow();
-        fadeIn(root);
         stage.setScene(scene);
         stage.centerOnScreen();
-    }
-
-    private void fadeIn(Parent root) {
-        DoubleProperty opacity = root.opacityProperty();
-        Timeline fadeIn = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(opacity, 0.0)),
-                new KeyFrame(new Duration(1000), new KeyValue(opacity, 1.0))
-        );
-        fadeIn.play();
     }
 
     private void validatePassword(String password) throws Exception {

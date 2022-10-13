@@ -4,29 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox stylesheets="@../../../css/style.css"
-      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController"
-      styleClass="light-blue-background-color" maxHeight="380" minHeight="380">
+<HBox maxHeight="380" minHeight="380" styleClass="light-blue-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController">
     <padding>
-        <Insets bottom="25.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="25.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <VBox prefWidth="365" spacing="20.0" styleClass="white-background-color" alignment="CENTER">
-        <TextField promptText="Item Code"/>
-        <TextField promptText="Member identifier"/>
+    <VBox alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
+        <fx:include fx:id="lend" source="notification.fxml" />
+        <TextField promptText="Item Code" />
+        <TextField promptText="Member identifier" />
 
-        <Button styleClass="lend-receive-button" text="Lend Item"/>
+        <Button styleClass="lend-receive-button" text="Lend Item" />
         <HBox.margin>
-            <Insets right="12.0"/>
+            <Insets right="12.0" />
         </HBox.margin>
+      <padding>
+         <Insets left="15.0" right="15.0" top="20.0" />
+      </padding>
     </VBox>
 
-    <VBox prefWidth="365" spacing="20.0" styleClass="white-background-color" alignment="CENTER">
-        <TextField promptText="Item Code"/>
-        <Button styleClass="lend-receive-button" text="Receive Item"/>
+    <VBox alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
+        <fx:include fx:id="receive" source="notification.fxml" />
+        <TextField promptText="Item Code" />
+        <Button styleClass="lend-receive-button" text="Receive Item" />
         <HBox.margin>
-            <Insets left="12.0"/>
+            <Insets left="12.0" />
         </HBox.margin>
+      <padding>
+         <Insets left="15.0" right="15.0" top="20.0" />
+      </padding>
     </VBox>
 </HBox>

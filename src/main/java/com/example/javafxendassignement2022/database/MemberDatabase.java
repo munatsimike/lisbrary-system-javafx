@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public class MemberDatabase {
     ObservableList<Member> members;
-
     public MemberDatabase() {
         members = FXCollections.observableArrayList();
         members.add(new Member(1, "Michael", "RukudzoM7", LocalDate.of(2022,10,17)));

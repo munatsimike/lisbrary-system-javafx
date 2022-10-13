@@ -1,6 +1,8 @@
 package com.example.javafxendassignement2022.controller;
 
+import com.example.javafxendassignement2022.database.ItemDataBase;
 import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.model.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,13 +35,18 @@ public class AddEditItemController implements Initializable {
     @FXML
     private NotificationController notificationController;
     private Stage stage;
+    private ItemDataBase itemDataBase;
+
+    public void iniDatabase(ItemDataBase itemsDatabase) {
+        this.itemDataBase = itemsDatabase;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Scene scene = new Scene(vBoxParent, 450, 320);
         stage = new Stage();
         stage.initStyle(StageStyle.UTILITY);
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.centerOnScreen();
     }
@@ -57,7 +64,12 @@ public class AddEditItemController implements Initializable {
 
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addButton)) {
-            notificationController.setNotificationText("add", MessageType.Success);
+            try {
+                itemDataBase.addItem(new Item(itemDataBase.getId(), true, title.getText(), author.getText()));
+            } catch (Exception e) {
+                notificationController.setNotificationText("add", MessageType.Success);
+            }
+
         } else {
             stage.hide();
         }
@@ -75,7 +87,5 @@ public class AddEditItemController implements Initializable {
         stage.show();
     }
 
-    private void validateFirstLastName(){
 
-    }
 }

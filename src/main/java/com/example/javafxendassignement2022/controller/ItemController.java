@@ -3,6 +3,9 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.ItemDataBase;
 import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.model.Member;
+import com.example.javafxendassignement2022.model.MessageType;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -17,12 +20,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class ItemController  extends BaseController implements Initializable {
+public class ItemController implements Initializable {
 
-   private ObservableList<Item> selectedItems;
-   private TableView.TableViewSelectionModel<Item> selectionModel;
-   private final FilteredList<Item> filteredData;
-   private final ItemDataBase table;
+    private ObservableList<Item> selectedItems;
+    private TableView.TableViewSelectionModel<Item> selectionModel;
+    private final FilteredList<Item> filteredData;
+    private final ItemDataBase itemsDatabase;
 
     @FXML
     private TableView<Item> itemsTable;
@@ -30,14 +33,17 @@ public class ItemController  extends BaseController implements Initializable {
     private SearchController searchController;
     @FXML
     private FormController formController;
+    @FXML
+    private NotificationController notificationController;
     private AddEditItemController addEditFromController;
     private final FXMLLoader loader;
 
 
     public ItemController() {
-        table = new ItemDataBase();
-        filteredData = new FilteredList<>(table.getItems());
+        itemsDatabase = new ItemDataBase();
+        filteredData = new FilteredList<>(itemsDatabase.getItems());
         loader = new FXMLLoader();
+
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,6 +52,7 @@ public class ItemController  extends BaseController implements Initializable {
         setSelectionMode();
         searchQueryListener();
         formButtonListener();
+        clearNotification();
     }
 
     private void initItemFormController() {
@@ -57,15 +64,24 @@ public class ItemController  extends BaseController implements Initializable {
             e.printStackTrace();
         }
         addEditFromController = loader.getController();
+        addEditFromController.iniDatabase(itemsDatabase);
     }
 
     private void formButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
-            if (Objects.equals(newValue, formController.deleteButton.getText()) && selectedItems.size() == 1) {
-                table.deleteItem(selectedItems.get(0).getItemCode());
-            } else if (Objects.equals(newValue, formController.editButton.getText()) && selectedItems.size() == 1) {
+            if (Objects.equals(newValue, formController.deleteButton.getText())) {
+                if (selectedItems.size() == 1) {
+                    itemsDatabase.deleteItem(selectedItems.get(0).getItemCode());
+                } else {
+                    notificationController.setNotificationText("No item selected, select an item to delete", MessageType.Error);
+                }
+            } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
-                    editItem(selectedItems.get(0));
+                    if (selectedItems.size() == 1) {
+                        editItem(selectedItems.get(0));
+                    } else {
+                        notificationController.setNotificationText("No item selected, select an item to edit", MessageType.Error);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -87,6 +103,11 @@ public class ItemController  extends BaseController implements Initializable {
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
     }
 
+    private void clearNotification(){
+        selectedItems.addListener((ListChangeListener<Item>) change -> {
+            notificationController.clearNotificationText();
+        });
+    }
     // clear selected row
     public void clearTableSelection() {
         selectionModel.clearSelection();

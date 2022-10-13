@@ -15,7 +15,7 @@
             <Font size="25.0"/>
         </font>
     </Label>
-    <TextField fx:id="usernameTxtField" promptText="Username" text=""/>
+    <TextField fx:id="usernameTxtField" promptText="Username" text="munatsimike"/>
     <PasswordField fx:id="passwordTxtField" promptText="Password" text="RukudzoM7*"/>
     <Button onAction="#onLoginButtonClick" styleClass="login-button" text="Login"/>
     <padding>

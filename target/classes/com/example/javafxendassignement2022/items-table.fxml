@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.ItemController">
-    <fx:include fx:id="search" source="search-form.fxml"/>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
 
-    <TableView maxHeight="235" minHeight="235" fx:id="itemsTable" VBox.vgrow="ALWAYS">
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.ItemController">
+    <StackPane>
+        <fx:include fx:id="search" source="search-form.fxml" />
+        <VBox maxHeight="-Infinity" maxWidth="450.0" StackPane.alignment="CENTER_LEFT">
+            <fx:include fx:id="notification" source="notification.fxml" />
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+        </VBox>
+    </StackPane>
+
+    <TableView fx:id="itemsTable" maxHeight="235" minHeight="235" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn prefWidth="150" text="Item code">
                 <cellValueFactory>
-                    <PropertyValueFactory property="itemCode"/>
+                    <PropertyValueFactory property="itemCode" />
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="150" text="Available">
                 <cellValueFactory>
-                    <PropertyValueFactory property="available"/>
+                    <PropertyValueFactory property="available" />
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="250" text="Title">
                 <cellValueFactory>
-                    <PropertyValueFactory property="title"/>
+                    <PropertyValueFactory property="title" />
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="200" text="Author">
                 <cellValueFactory>
-                    <PropertyValueFactory property="author"/>
+                    <PropertyValueFactory property="author" />
                 </cellValueFactory>
             </TableColumn>
         </columns>

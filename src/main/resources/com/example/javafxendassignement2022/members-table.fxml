@@ -5,37 +5,49 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MemberController">
-    <fx:include fx:id="search" source="search-form.fxml" />
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.MemberController">
+
+    <StackPane>
+        <fx:include fx:id="search" source="search-form.fxml"/>
+        <VBox maxHeight="-Infinity" maxWidth="450.0" StackPane.alignment="CENTER_LEFT">
+            <fx:include fx:id="notification" source="notification.fxml"/>
+            <padding>
+                <Insets left="20.0"/>
+            </padding>
+        </VBox>
+    </StackPane>
+
     <TableView fx:id="membersTable" maxHeight="235" minHeight="235" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn prefWidth="150" text="Identifier">
                 <cellValueFactory>
-                    <PropertyValueFactory property="identifier" />
+                    <PropertyValueFactory property="identifier"/>
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="150" text="First Name">
                 <cellValueFactory>
-                    <PropertyValueFactory property="firstName" />
+                    <PropertyValueFactory property="firstName"/>
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="250" text="Last Name">
                 <cellValueFactory>
-                    <PropertyValueFactory property="lastName" />
+                    <PropertyValueFactory property="lastName"/>
                 </cellValueFactory>
             </TableColumn>
 
             <TableColumn prefWidth="200" text="Birth Date">
                 <cellValueFactory>
-                    <PropertyValueFactory property="dateOfBirth" />
+                    <PropertyValueFactory property="dateOfBirth"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>
-      <VBox.margin>
-         <Insets />
-      </VBox.margin>
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
     </TableView>
-    <fx:include fx:id="form" source="bottom-form.fxml" />
+    <fx:include fx:id="form" source="bottom-form.fxml"/>
 </VBox>
