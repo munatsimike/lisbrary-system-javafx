@@ -4,16 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER_RIGHT" maxHeight="60" maxWidth="Infinity" minHeight="60" spacing="15"
-      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.SearchController" styleClass="light-blue-background-color">
-    <Label text="Search"/>
+<HBox alignment="CENTER_RIGHT" maxHeight="50" maxWidth="Infinity" minHeight="50" spacing="15" styleClass="light-blue-background-color" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.SearchController">
+    <Label text="Search" />
     <TextField fx:id="searchTextField" onTextChange="#onTextChange" promptText="author, title">
         <opaqueInsets>
-            <Insets/>
+            <Insets />
         </opaqueInsets>
         <HBox.margin>
-            <Insets right="15.0"/>
+            <Insets right="15.0" />
         </HBox.margin>
     </TextField>
+   <padding>
+      <Insets bottom="15.0" />
+   </padding>
 </HBox>

@@ -2,8 +2,9 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.UserDatabase;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import com.example.javafxendassignement2022.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController{
+public class LoginController {
     @FXML
     public VBox vBox;
     @FXML
@@ -51,7 +52,7 @@ public class LoginController{
         Parent root = loader.load();
         MainWindowController mainWindowController = loader.getController();
         mainWindowController.setWelcomeLabelText(loggedInUser);
-        Scene scene = new Scene(root, 800, 500);
+        Scene scene = new Scene(root, 800, 550);
         Stage stage = (Stage) vBox.getScene().getWindow();
         stage.setScene(scene);
         stage.centerOnScreen();
@@ -79,5 +80,11 @@ public class LoginController{
         } else {
             notificationController.clearNotificationText();
         }
+    }
+
+    @FXML
+    public void onCancelButtonClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) vBox.getScene().getWindow();
+        stage.close();
     }
 }

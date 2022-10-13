@@ -1,5 +1,5 @@
 
-.white-text-color, .button, .h1, .edit-cancel-button, .add-button, .delete-button {
+.white-text-color, .button, .h1, .edit-cancel-button, .add-button, .delete-button, .cancel-button{
     -fx-text-fill: white;
 }
 
@@ -7,7 +7,7 @@
     -fx-background-color: #0d5ec5;
 }
 
-.grey-background-color, .edit-cancel-button {
+.grey-background-color, .edit-cancel-button, .cancel-button {
     -fx-background-color: grey;
 }
 
@@ -63,8 +63,8 @@
     -fx-pref-width: 150;
 }
 
-.pref-width-100, .login-button, .delete-button, .edit-cancel-button, .add-button {
-    -fx-pref-width: 100;
+.pref-width-100, .login-button, .delete-button, .edit-cancel-button, .add-button, .cancel-button {
+    -fx-pref-width: 120;
 }
 
 .with-200, .password-field, .text-field {
@@ -84,7 +84,7 @@
     -fx-max-width: 50;
 }
 
-.pref-height-30, .login-button, .edit-cancel-button, .add-button, .delete-button {
+.pref-height-30, .login-button, .edit-cancel-button, .add-button, .delete-button, .cancel-button {
     -fx-pref-height: 30;
 }
 
@@ -104,6 +104,10 @@
 }
 
 .login-button {
+}
+
+.cancel-button{
+
 }
 
 .h1 {

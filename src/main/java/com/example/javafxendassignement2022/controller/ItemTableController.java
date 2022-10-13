@@ -3,8 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.ItemDataBase;
 import com.example.javafxendassignement2022.model.Item;
-import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -42,7 +41,6 @@ public class ItemTableController implements Initializable {
         itemsDatabase = new ItemDataBase();
         filteredData = new FilteredList<>(itemsDatabase.getItems());
         loader = new FXMLLoader();
-
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,7 +49,11 @@ public class ItemTableController implements Initializable {
         setSelectionMode();
         searchQueryListener();
         formButtonListener();
-        clearNotification();
+        try {
+            windowCloseListener();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initItemFormController() {
@@ -103,11 +105,12 @@ public class ItemTableController implements Initializable {
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
     }
 
-    private void clearNotification(){
+    private void clearNotification() {
         selectedItems.addListener((ListChangeListener<Item>) change -> {
             notificationController.clearNotificationText();
         });
     }
+
     // clear selected row
     public void clearTableSelection() {
         selectionModel.clearSelection();
@@ -133,5 +136,13 @@ public class ItemTableController implements Initializable {
     private void addItem() {
         clearTableSelection();
         addEditFromController.addItem();
+    }
+
+    private void windowCloseListener() throws IOException {
+
+    }
+
+    private void saveItemsToFile() {
+
     }
 }

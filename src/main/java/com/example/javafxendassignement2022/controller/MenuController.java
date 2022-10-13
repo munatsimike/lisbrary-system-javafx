@@ -2,10 +2,11 @@ package com.example.javafxendassignement2022.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.List;
@@ -13,20 +14,20 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
-
-    private final StringProperty selectedBtn;
-    private List<ToggleButton> menuButtons;
-
-    public StringProperty getSelectedMenuBtn() {
-        return selectedBtn;
-    }
-
+    @FXML
+    public Label logout;
     @FXML
     ToggleButton lendingReceiving;
     @FXML
     ToggleButton collection;
     @FXML
     ToggleButton members;
+
+    private final StringProperty selectedBtn;
+    private List<ToggleButton> menuButtons;
+    public StringProperty getSelectedMenuBtn() {
+        return selectedBtn;
+    }
 
     public MenuController() {
         selectedBtn = new SimpleStringProperty(null);
@@ -66,5 +67,10 @@ public class MenuController implements Initializable {
                 btn.getStyleClass().remove("light-blue-background-color");
             }
         }
+    }
+
+  @FXML
+    public void onMouseClicked(MouseEvent mouseEvent) {
+        selectedBtn.setValue(logout.getText());
     }
 }

@@ -2,8 +2,7 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.ItemDataBase;
 import com.example.javafxendassignement2022.model.Item;
-import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class AddEditItemController implements Initializable {
     @FXML
-    private ComboBox<Boolean> available;
+    private ComboBox<Boolean> availableCombox;
     @FXML
     private TextField author;
     @FXML
@@ -38,6 +37,7 @@ public class AddEditItemController implements Initializable {
     private ItemDataBase itemDataBase;
 
     public void iniDatabase(ItemDataBase itemsDatabase) {
+        initComboBoxListener();
         this.itemDataBase = itemsDatabase;
     }
 
@@ -51,10 +51,14 @@ public class AddEditItemController implements Initializable {
         stage.centerOnScreen();
     }
 
+    private void initComboBoxListener(){
+        availableCombox.getSelectionModel().getSelectedItem();
+    }
+
     public void editItem(Item item) {
         author.setText(item.getAuthor());
         title.setText(item.getTitle());
-        available.setValue(item.getAvailable());
+        availableCombox.setValue(item.getAvailable());
         showForm("Edit item");
     }
 
@@ -79,7 +83,7 @@ public class AddEditItemController implements Initializable {
     private void clearForm() {
         title.setText(null);
         author.setText(null);
-        available.setValue(null);
+        availableCombox.setValue(null);
     }
 
     private void showForm(String title) {
@@ -87,5 +91,7 @@ public class AddEditItemController implements Initializable {
         stage.show();
     }
 
+    public void setAddEditButtonText(){
 
+    }
 }

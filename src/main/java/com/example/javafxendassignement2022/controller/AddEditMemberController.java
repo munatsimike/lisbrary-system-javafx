@@ -2,7 +2,7 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.MemberDatabase;
 import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +19,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AddEditMemberController implements Initializable {

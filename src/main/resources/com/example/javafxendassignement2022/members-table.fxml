@@ -19,7 +19,7 @@
         </VBox>
     </StackPane>
 
-    <TableView fx:id="membersTable" maxHeight="235" minHeight="235" VBox.vgrow="ALWAYS">
+    <TableView fx:id="membersTable" maxHeight="275" minHeight="275" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn prefWidth="150" text="Identifier">
                 <cellValueFactory>

@@ -2,7 +2,7 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.ItemDataBase;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,10 +33,12 @@ public class LendReceiveItemController implements Initializable {
     private ItemTableController itemTableController;
     private ItemDataBase itemDataBase;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         itemDataBase = new ItemDataBase();
         getItemTableController();
+        //focusChangeListener();
     }
 
     private void getItemTableController() {
@@ -75,5 +77,12 @@ public class LendReceiveItemController implements Initializable {
             }
         }
         notificationController.clearNotificationText();
+    }
+
+    private void focusChangeListener(){
+        itemCodeReceive.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+            System.out.println(aBoolean);
+            System.out.println(t1);
+        });
     }
 }

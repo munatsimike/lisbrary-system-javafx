@@ -4,10 +4,13 @@ import com.example.javafxendassignement2022.LibrarySystem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,9 +32,11 @@ public class MainWindowController implements Initializable {
     @FXML
     private MenuController menuController;
     private FormController formController;
+    private FXMLLoader fxmlLoader;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        fxmlLoader = new FXMLLoader();
         borderPane.setCenter(lendReceiveForm);
         observeMenuItemChanges();
         initializeForm();
@@ -50,7 +55,11 @@ public class MainWindowController implements Initializable {
 
     private void observeMenuItemChanges() {
         menuController.getSelectedMenuBtn().addListener((Observable, oldValue, newValue) -> {
-            navigationGraph(newValue);
+            try {
+                navigationGraph(newValue);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -60,14 +69,25 @@ public class MainWindowController implements Initializable {
         });
     }
 
-    private void navigationGraph(String selectedMenu) {
+    private void navigationGraph(String selectedMenu) throws IOException {
         if (Objects.equals(selectedMenu, menuController.collection.getText())) {
             borderPane.setCenter(itemsTable);
         } else if (Objects.equals(selectedMenu, menuController.members.getText())) {
             borderPane.setCenter(membersTable);
-        } else {
+        } else if (Objects.equals(selectedMenu, menuController.lendingReceiving.getText())) {
             borderPane.setCenter(lendReceiveForm);
+        } else {
+            logout();
         }
+    }
+
+    private void logout() throws IOException {
+        fxmlLoader.setLocation(LibrarySystem.class.getResource("login.fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, 500, 350);
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setScene(scene);
+        stage.centerOnScreen();
     }
 
     public void setWelcomeLabelText(String user) {

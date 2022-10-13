@@ -5,40 +5,57 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox  maxHeight="67.0"  styleClass="black-background-color"
-      stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MenuController">
+<HBox maxHeight="67.0" styleClass="black-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MenuController">
 
-    <HBox alignment="CENTER">
+    <HBox alignment="CENTER" minHeight="100.0">
         <ImageView fitHeight="50.0" fitWidth="50.0">
-            <Image url="@../../../img/library.png"/>
+            <Image url="@../../../img/logo.png" />
             <HBox.margin>
-                <Insets left="10.0"/>
+                <Insets left="10.0" />
             </HBox.margin>
         </ImageView>
 
         <Label prefHeight="25.0" prefWidth="293.0" styleClass="h1" text="Library system">
             <HBox.margin>
-                <Insets left="7.0"/>
+                <Insets left="7.0" />
             </HBox.margin>
         </Label>
     </HBox>
+    <StackPane alignment="CENTER_RIGHT">
 
-    <HBox alignment="BOTTOM_RIGHT" minHeight="70" maxHeight="70" spacing="2">
-        <fx:define>
-            <ToggleGroup fx:id="menuToggleGroup"/>
-        </fx:define>
-
-        <ToggleButton fx:id="lendingReceiving"  styleClass="menu-toggle-button" text="Lending/Receiving"
-                      toggleGroup="$menuToggleGroup"
-                      onAction="#onActionHandler"/>
-        <ToggleButton fx:id="collection"  styleClass="menu-toggle-button" text="Collection" toggleGroup="$menuToggleGroup"
-                      onAction="#onActionHandler"/>
-        <ToggleButton fx:id="members"  styleClass="menu-toggle-button" text="Members" toggleGroup="$menuToggleGroup"
-                      onAction="#onActionHandler"/>
-        <HBox.margin>
-            <Insets right="15.0"/>
-        </HBox.margin>
-    </HBox>
-
+        <HBox alignment="BOTTOM_RIGHT" maxHeight="100" minHeight="100" spacing="2">
+            <ToggleButton fx:id="lendingReceiving" onAction="#onActionHandler" styleClass="menu-toggle-button" text="Lending/Receiving">
+                <toggleGroup>
+                    <ToggleGroup fx:id="menuToggleGroup" />
+                </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="collection" onAction="#onActionHandler" styleClass="menu-toggle-button" text="Collection" toggleGroup="$menuToggleGroup" />
+            <ToggleButton fx:id="members" onAction="#onActionHandler" styleClass="menu-toggle-button" text="Members" toggleGroup="$menuToggleGroup">
+            <HBox.margin>
+               <Insets right="15.0" />
+            </HBox.margin></ToggleButton>
+            <HBox.margin>
+                <Insets right="15.0" />
+            </HBox.margin>
+        </HBox>
+        <VBox fx:id="imageViewContainer" onMouseClicked="#onMouseClicked" alignment="CENTER" maxHeight="55" maxWidth="60">
+            <ImageView  fitHeight="27.0" fitWidth="27.0">
+                <Image url="@../../../img/logout.png" />
+                <VBox.margin>
+                    <Insets right="15.0" />
+                </VBox.margin>
+            </ImageView>
+            <Label fx:id="logout"  onMouseClicked="#onMouseClicked" text="Logout" textFill="white">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+                <padding>
+                    <Insets right="20.0" />
+                </padding>
+            </Label>
+            <StackPane.margin>
+                <Insets bottom="40.0" />
+            </StackPane.margin>
+        </VBox>
+    </StackPane>
 </HBox>

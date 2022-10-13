@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="380" minHeight="380" styleClass="light-blue-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController">
+<HBox maxHeight="410.0" minHeight="410" styleClass="light-blue-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController">
     <padding>
         <Insets bottom="25.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -15,7 +14,7 @@
         <TextField fx:id="itemCodeLend" promptText="Item Code" />
         <TextField fx:id="memberIdentifier" promptText="Member identifier" />
 
-        <Button fx:id="lendItemBtn" styleClass="lend-receive-button" onAction="#onButtonClick" text="Lend Item" />
+        <Button fx:id="lendItemBtn" onAction="#onButtonClick" styleClass="lend-receive-button" text="Lend Item" />
         <HBox.margin>
             <Insets right="12.0" />
         </HBox.margin>
@@ -23,5 +22,5 @@
          <Insets left="15.0" right="15.0" top="20.0" />
       </padding>
     </VBox>
-    <fx:include fx:id="receiveItem" source="recieve-item-form.fxml"/>
+    <fx:include fx:id="receiveItem" source="recieve-item-form.fxml" />
 </HBox>

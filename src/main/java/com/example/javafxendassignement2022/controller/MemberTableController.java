@@ -3,7 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.MemberDatabase;
 import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.model.MessageType;
+import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
