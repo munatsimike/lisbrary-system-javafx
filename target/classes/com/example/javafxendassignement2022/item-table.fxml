@@ -5,9 +5,10 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="parent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.ItemTableController"
-styleClass="light-blue-background-color">
+<VBox fx:id="itemTableContainer" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javafxendassignement2022.controller.ItemTableController"
+      styleClass="light-blue-background-color">
     <StackPane>
         <fx:include fx:id="search" source="search-form.fxml" />
         <VBox maxHeight="-Infinity" maxWidth="450.0" StackPane.alignment="CENTER_LEFT">
@@ -18,7 +19,7 @@ styleClass="light-blue-background-color">
         </VBox>
     </StackPane>
 
-    <TableView fx:id="itemsTable" maxHeight="275" minHeight="275" VBox.vgrow="ALWAYS">
+    <TableView fx:id="itemTable" maxHeight="275" minHeight="275" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn prefWidth="150" text="Item code">
                 <cellValueFactory>

@@ -1,6 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
+import com.example.javafxendassignement2022.database.ItemDatabase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,26 +19,28 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
-
     @FXML
     public Label welcomeLabel;
     @FXML
-    public VBox membersTable;
+    public VBox membersTableContainer;
     @FXML
-    public VBox itemsTable;
+    public VBox itemsTableContainer;
     @FXML
-    public HBox lendReceiveForm;
+    public HBox lendReceiveItemFormContainer;
     @FXML
     public BorderPane borderPane;
     @FXML
     private MenuController menuController;
     private FormController formController;
-    private FXMLLoader fxmlLoader;
+    private final ItemDatabase itemDataBase;
+
+    public MainWindowController() {
+        this.itemDataBase = new ItemDatabase();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fxmlLoader = new FXMLLoader();
-        borderPane.setCenter(lendReceiveForm);
+        borderPane.setCenter(lendReceiveItemFormContainer);
         observeMenuItemChanges();
         initializeForm();
         observeFormButtonClicks();
@@ -71,18 +74,18 @@ public class MainWindowController implements Initializable {
 
     private void navigationGraph(String selectedMenu) throws IOException {
         if (Objects.equals(selectedMenu, menuController.collection.getText())) {
-            borderPane.setCenter(itemsTable);
+            borderPane.setCenter(itemsTableContainer);
         } else if (Objects.equals(selectedMenu, menuController.members.getText())) {
-            borderPane.setCenter(membersTable);
+            borderPane.setCenter(membersTableContainer);
         } else if (Objects.equals(selectedMenu, menuController.lendingReceiving.getText())) {
-            borderPane.setCenter(lendReceiveForm);
+            borderPane.setCenter(lendReceiveItemFormContainer);
         } else {
             logout();
         }
     }
 
     private void logout() throws IOException {
-        fxmlLoader.setLocation(LibrarySystem.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource("login.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 500, 350);
         Stage stage = (Stage) borderPane.getScene().getWindow();

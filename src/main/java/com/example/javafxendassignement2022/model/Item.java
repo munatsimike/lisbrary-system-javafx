@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Item implements Serializable {
     private int itemCode;
-    private boolean available;
+    private String available;
     private String title;
     private String author;
 
@@ -20,11 +20,11 @@ public class Item implements Serializable {
         this.itemCode = itemCode;
     }
 
-    public Boolean getAvailable() {
+    public String getAvailable() {
         return available;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(String available) {
         this.available = available;
     }
 
@@ -44,7 +44,7 @@ public class Item implements Serializable {
         this.author = author;
     }
 
-    public Item(int itemCode, Boolean availability, String title, String author) {
+    public Item(int itemCode, String availability, String title, String author) {
         this.itemCode = itemCode;
         this.available = availability;
         this.title = title;

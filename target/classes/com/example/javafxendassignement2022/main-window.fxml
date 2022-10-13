@@ -20,13 +20,13 @@
 
     <BorderPane fx:id="borderPane" maxHeight="350" prefHeight="350">
         <fx:define>
-            <fx:include fx:id="lendReceiveForm" source="lend-item-form.fxml" />
+            <fx:include fx:id="lendReceiveItemFormContainer" source="lend-receive-item.fxml" />
         </fx:define>
         <fx:define>
-            <fx:include fx:id="itemsTable" source="items-table.fxml" />
+            <fx:include fx:id="itemsTableContainer" source="item-table.fxml" />
         </fx:define>
         <fx:define>
-            <fx:include fx:id="membersTable" source="members-table.fxml" />
+            <fx:include fx:id="membersTableContainer" source="members-table.fxml" />
         </fx:define>
     </BorderPane>
 </VBox>

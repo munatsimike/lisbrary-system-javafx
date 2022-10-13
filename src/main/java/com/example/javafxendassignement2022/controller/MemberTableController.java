@@ -2,6 +2,7 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.MemberDatabase;
+import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.collections.ListChangeListener;
@@ -19,7 +20,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class MemberTableController extends BaseController implements Initializable {
+public class MemberTableController implements Initializable {
     private ObservableList<Member> selectedMembers;
     private TableView.TableViewSelectionModel<Member> selectionModel;
     private final FilteredList<Member> filteredData;
@@ -34,7 +35,7 @@ public class MemberTableController extends BaseController implements Initializab
     @FXML
     private NotificationController notificationController;
 
-    private AddEditMemberController addEditMemberController;
+    private AddEditMemberFormController addEditMemberController;
     private FXMLLoader loader;
 
     public MemberTableController() {
@@ -79,6 +80,7 @@ public class MemberTableController extends BaseController implements Initializab
             } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
                     if (selectedMembers.size() == 1) {
+                        addEditMemberController.setAddEditMemberController(ButtonText.EDIT_MEMBER);
                         editMember(selectedMembers.get(0));
 
                     } else {
@@ -88,6 +90,7 @@ public class MemberTableController extends BaseController implements Initializab
                     e.printStackTrace();
                 }
             } else if (Objects.equals(newValue, formController.addButton.getText())) {
+                addEditMemberController.setAddEditMemberController(ButtonText.ADD_MEMBER);
                 notificationController.clearNotificationText();
                 addMember();
             }

@@ -1,6 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.database.ItemDataBase;
+import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
@@ -18,9 +19,9 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddEditItemController implements Initializable {
+public class AddEditItemFormController implements Initializable {
     @FXML
-    private ComboBox<Boolean> availableCombox;
+    private ComboBox<String> availableCombox;
     @FXML
     private TextField author;
     @FXML
@@ -34,9 +35,9 @@ public class AddEditItemController implements Initializable {
     @FXML
     private NotificationController notificationController;
     private Stage stage;
-    private ItemDataBase itemDataBase;
+    private ItemDatabase itemDataBase;
 
-    public void iniDatabase(ItemDataBase itemsDatabase) {
+    public void iniDatabase(ItemDatabase itemsDatabase) {
         initComboBoxListener();
         this.itemDataBase = itemsDatabase;
     }
@@ -51,7 +52,7 @@ public class AddEditItemController implements Initializable {
         stage.centerOnScreen();
     }
 
-    private void initComboBoxListener(){
+    private void initComboBoxListener() {
         availableCombox.getSelectionModel().getSelectedItem();
     }
 
@@ -69,9 +70,17 @@ public class AddEditItemController implements Initializable {
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addButton)) {
             try {
-                itemDataBase.addItem(new Item(itemDataBase.getId(), true, title.getText(), author.getText()));
+                if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
+                    itemDataBase.addItem(new Item(itemDataBase.getId(), availableCombox.getValue(), title.getText(), author.getText()));
+                    notificationController.setNotificationText("Item saved successfully", MessageType.Success);
+                    System.out.println("added");
+                } else {
+                    System.out.println("edited");
+                    notificationController.setNotificationText("Item edited successfully", MessageType.Success);
+
+                }
             } catch (Exception e) {
-                notificationController.setNotificationText("add", MessageType.Success);
+                notificationController.setNotificationText(e.getMessage(), MessageType.Error);
             }
 
         } else {
@@ -83,7 +92,6 @@ public class AddEditItemController implements Initializable {
     private void clearForm() {
         title.setText(null);
         author.setText(null);
-        availableCombox.setValue(null);
     }
 
     private void showForm(String title) {
@@ -91,7 +99,7 @@ public class AddEditItemController implements Initializable {
         stage.show();
     }
 
-    public void setAddEditButtonText(){
-
+    public void setAddEditButtonText(ButtonText buttonText) {
+        addButton.setText(buttonText.toString());
     }
 }

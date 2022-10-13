@@ -1,6 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.MemberDatabase;
+import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
@@ -21,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
-public class AddEditMemberController implements Initializable {
+public class AddEditMemberFormController implements Initializable {
     @FXML
     private TextField firstName;
     @FXML
@@ -67,13 +68,17 @@ public class AddEditMemberController implements Initializable {
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addMember)) {
             try {
-                validateFirstLastName(lastName.getText());
-                validateFirstLastName(firstName.getText());
-                memberDatabase.addMember(new Member(memberDatabase.getId(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
-                notificationController.setNotificationText("Member saved successfully", MessageType.Success);
-                clearForm();
+                if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
+                    validateFirstLastName(lastName.getText());
+                    validateFirstLastName(firstName.getText());
+                    memberDatabase.addMember(new Member(memberDatabase.getId(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
+                    notificationController.setNotificationText("Member saved successfully", MessageType.Success);
+                    clearForm();
+                } else {
+                    notificationController.setNotificationText("Member edited successfully", MessageType.Success);
+                }
             } catch (DateTimeParseException e) {
-                notificationController.setNotificationText(e.getMessage(), MessageType.Error);
+                notificationController.setNotificationText("Invalid date format", MessageType.Error);
             } catch (Exception e) {
                 notificationController.setNotificationText(e.getMessage(), MessageType.Error);
             }
@@ -120,5 +125,9 @@ public class AddEditMemberController implements Initializable {
     public String capitalizeFirstLetter(String str) {
         if (str == null || str.length() <= 1) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    public void setAddEditMemberController(ButtonText editMember) {
+        addMember.setText(editMember.toString());
     }
 }

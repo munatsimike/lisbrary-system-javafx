@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="vBoxParent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.AddEditMemberController">
+<VBox fx:id="vBoxParent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.AddEditMemberFormController">
     <fx:include  fx:id="notification" source="notification.fxml" />
     <GridPane hgap="20.0" prefHeight="160" vgap="20.0">
         <TextField fx:id="firstName" text="MIchael" prefWidth="400" promptText="First name" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="0" />
@@ -24,7 +24,7 @@
     </GridPane>
 
     <HBox spacing="20">
-        <Button fx:id="addMember" onAction="#onButtonClick" styleClass="add-button" text="Add member" />
+        <Button fx:id="addMember" onAction="#onButtonClick" styleClass="add-button"/>
         <Button fx:id="cancel" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Cancel" />
         <padding>
             <Insets bottom="20.0" right="20.0" top="20.0" />

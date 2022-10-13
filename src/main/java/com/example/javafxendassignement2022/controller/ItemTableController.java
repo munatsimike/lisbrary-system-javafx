@@ -1,7 +1,8 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDataBase;
+import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.collections.ListChangeListener;
@@ -23,42 +24,38 @@ public class ItemTableController implements Initializable {
 
     private ObservableList<Item> selectedItems;
     private TableView.TableViewSelectionModel<Item> selectionModel;
-    private final FilteredList<Item> filteredData;
-    private final ItemDataBase itemsDatabase;
+    private FilteredList<Item> filteredData;
+    private ItemDatabase itemsDatabase;
 
     @FXML
-    private TableView<Item> itemsTable;
+    private TableView<Item> itemTable;
     @FXML
     private SearchController searchController;
     @FXML
     private FormController formController;
     @FXML
     private NotificationController notificationController;
-    private AddEditItemController addEditFromController;
-    private final FXMLLoader loader;
+    private AddEditItemFormController addEditFromController;
 
     public ItemTableController() {
-        itemsDatabase = new ItemDataBase();
+        itemsDatabase = new ItemDatabase();
         filteredData = new FilteredList<>(itemsDatabase.getItems());
-        loader = new FXMLLoader();
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(itemTable);
+        System.out.println(itemsDatabase);
+        System.out.println(filteredData);
         // Configure the TableView
         initItemFormController();
         setSelectionMode();
         searchQueryListener();
         formButtonListener();
-        try {
-            windowCloseListener();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void initItemFormController() {
-        itemsTable.setItems(filteredData);
-        loader.setLocation(LibrarySystem.class.getResource("add-edit-item-form.fxml"));
+        itemTable.setItems(filteredData);
+        FXMLLoader loader = new FXMLLoader(LibrarySystem.class.getResource("add-edit-item-form.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -79,6 +76,7 @@ public class ItemTableController implements Initializable {
             } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
                     if (selectedItems.size() == 1) {
+                        addEditFromController.setAddEditButtonText(ButtonText.EDIT_ITEM);
                         editItem(selectedItems.get(0));
                     } else {
                         notificationController.setNotificationText("No item selected, select an item to edit", MessageType.Error);
@@ -88,6 +86,7 @@ public class ItemTableController implements Initializable {
                 }
             } else if (Objects.equals(newValue, formController.addButton.getText())) {
                 notificationController.clearNotificationText();
+                addEditFromController.setAddEditButtonText(ButtonText.ADD_ITEM);
                 addItem();
             }
         }));
@@ -100,7 +99,7 @@ public class ItemTableController implements Initializable {
     }
 
     private void setSelectionMode() {
-        selectionModel = itemsTable.getSelectionModel();
+        selectionModel = itemTable.getSelectionModel();
         selectedItems = selectionModel.getSelectedItems();
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
     }
@@ -136,13 +135,5 @@ public class ItemTableController implements Initializable {
     private void addItem() {
         clearTableSelection();
         addEditFromController.addItem();
-    }
-
-    private void windowCloseListener() throws IOException {
-
-    }
-
-    private void saveItemsToFile() {
-
     }
 }

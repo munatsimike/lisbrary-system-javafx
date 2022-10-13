@@ -1,7 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDataBase;
+import com.example.javafxendassignement2022.database.ItemDatabase;
 import com.example.javafxendassignement2022.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,28 +29,10 @@ public class LendReceiveItemController implements Initializable {
 
     @FXML
     private NotificationController notificationController;
-
     private ItemTableController itemTableController;
-    private ItemDataBase itemDataBase;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        itemDataBase = new ItemDataBase();
-        getItemTableController();
-        //focusChangeListener();
-    }
-
-    private void getItemTableController() {
-        FXMLLoader loader = new FXMLLoader(LibrarySystem.class.getResource("items-table.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        itemTableController = loader.getController();
-        //itemTableController.initDatabase(itemDataBase);
-
+        focusChangeListener();
     }
 
     public void onButtonClick(ActionEvent actionEvent) {

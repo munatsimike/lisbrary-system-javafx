@@ -15,6 +15,7 @@ public class NotificationController {
         if(text.length() == 0){
             return;
         }
+        System.out.println(text);
         notificationBackgroundColor(messageType);
         notificationLabel.setText(text);
         showHideLabel();

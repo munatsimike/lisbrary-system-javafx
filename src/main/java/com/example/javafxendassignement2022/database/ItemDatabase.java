@@ -4,16 +4,16 @@ import com.example.javafxendassignement2022.model.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ItemDataBase {
+public class ItemDatabase {
     ObservableList<Item> items;
 
-    public ItemDataBase() {
+    public ItemDatabase() {
         items = FXCollections.observableArrayList();
-        items.add(new Item(1, true, "12345678", "Tinashe"));
-        items.add(new Item(2, false, "RukudzoM7", "Student"));
-        items.add(new Item(3, true, "12345678", "Tariro"));
-        items.add(new Item(4, false, "12345678", "Student"));
-        items.add(new Item(5, true, "12345678", "Tatenda"));
+        items.add(new Item(1, "No", "12345678", "Tinashe"));
+        items.add(new Item(2, "Yes", "RukudzoM7", "Student"));
+        items.add(new Item(3, "No", "12345678", "Tariro"));
+        items.add(new Item(4, "Yes", "12345678", "Student"));
+        items.add(new Item(5, "No", "12345678", "Tatenda"));
     }
 
     public int getId() {
