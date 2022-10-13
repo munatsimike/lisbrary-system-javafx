@@ -1,8 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDataBase;
-import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.database.MemberDatabase;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.model.MessageType;
 import javafx.collections.ListChangeListener;
@@ -20,73 +19,77 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class ItemController implements Initializable {
-
-    private ObservableList<Item> selectedItems;
-    private TableView.TableViewSelectionModel<Item> selectionModel;
-    private final FilteredList<Item> filteredData;
-    private final ItemDataBase itemsDatabase;
+public class MemberTableController extends BaseController implements Initializable {
+    private ObservableList<Member> selectedMembers;
+    private TableView.TableViewSelectionModel<Member> selectionModel;
+    private final FilteredList<Member> filteredData;
+    private final MemberDatabase memberDatabase;
 
     @FXML
-    private TableView<Item> itemsTable;
+    private TableView<Member> membersTable;
     @FXML
     private SearchController searchController;
     @FXML
     private FormController formController;
     @FXML
     private NotificationController notificationController;
-    private AddEditItemController addEditFromController;
-    private final FXMLLoader loader;
 
+    private AddEditMemberController addEditMemberController;
+    private FXMLLoader loader;
 
-    public ItemController() {
-        itemsDatabase = new ItemDataBase();
-        filteredData = new FilteredList<>(itemsDatabase.getItems());
+    public MemberTableController() {
+        memberDatabase = new MemberDatabase();
+        filteredData = new FilteredList<>(memberDatabase.getMembers());
         loader = new FXMLLoader();
 
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Configure the TableView
-        initItemFormController();
+        membersTable.setItems(filteredData);
+        searchController.setPromptText("firstname, lastname");
         setSelectionMode();
+        initMemberFormController();
+        clearTableSelection();
         searchQueryListener();
         formButtonListener();
         clearNotification();
     }
 
-    private void initItemFormController() {
-        itemsTable.setItems(filteredData);
-        loader.setLocation(LibrarySystem.class.getResource("add-edit-item-form.fxml"));
+    private void initMemberFormController() {
+        membersTable.setItems(filteredData);
+        loader.setLocation(LibrarySystem.class.getResource("add-edit-member-form.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addEditFromController = loader.getController();
-        addEditFromController.iniDatabase(itemsDatabase);
+        addEditMemberController = loader.getController();
+        addEditMemberController.initDatabase(memberDatabase);
     }
 
     private void formButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, formController.deleteButton.getText())) {
-                if (selectedItems.size() == 1) {
-                    itemsDatabase.deleteItem(selectedItems.get(0).getItemCode());
+                if (selectedMembers.size() == 1) {
+                    memberDatabase.deleteMember(selectedMembers.get(0).getIdentifier());
                 } else {
-                    notificationController.setNotificationText("No item selected, select an item to delete", MessageType.Error);
+                    notificationController.setNotificationText("No member selected, select a member to delete", MessageType.Error);
                 }
             } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
-                    if (selectedItems.size() == 1) {
-                        editItem(selectedItems.get(0));
+                    if (selectedMembers.size() == 1) {
+                        editMember(selectedMembers.get(0));
+
                     } else {
-                        notificationController.setNotificationText("No item selected, select an item to edit", MessageType.Error);
+                        notificationController.setNotificationText("No member selected, select a member to edit", MessageType.Error);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (Objects.equals(newValue, formController.addButton.getText())) {
-                addItem();
+                notificationController.clearNotificationText();
+                addMember();
             }
         }));
     }
@@ -98,40 +101,42 @@ public class ItemController implements Initializable {
     }
 
     private void setSelectionMode() {
-        selectionModel = itemsTable.getSelectionModel();
-        selectedItems = selectionModel.getSelectedItems();
+        selectionModel = membersTable.getSelectionModel();
+        selectedMembers = selectionModel.getSelectedItems();
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
+
     }
 
     private void clearNotification(){
-        selectedItems.addListener((ListChangeListener<Item>) change -> {
+        selectedMembers.addListener((ListChangeListener<Member>) change -> {
             notificationController.clearNotificationText();
         });
     }
+
     // clear selected row
     public void clearTableSelection() {
         selectionModel.clearSelection();
     }
 
-    private boolean searchFindItem(Item item, String searchText) {
-        return (item.getTitle().toLowerCase().startsWith(searchText.toLowerCase())) ||
-                (item.getAuthor().toLowerCase().startsWith(searchText.toLowerCase()));
+    private boolean searchFindItem(Member member, String searchText) {
+        return (member.getFirstName().toLowerCase().startsWith(searchText.toLowerCase())) ||
+                (member.getLastName().toLowerCase().startsWith(searchText.toLowerCase()));
     }
 
-    private Predicate<Item> createPredicate(String searchText) {
-        return item -> {
+    private Predicate<Member> createPredicate(String searchText) {
+        return member -> {
             if (searchText == null || searchText.isEmpty()) return true;
-            return searchFindItem(item, searchText.trim());
+            return searchFindItem(member, searchText.trim());
         };
     }
 
-    private void editItem(Item item) throws IOException {
+    private void editMember(Member member) throws IOException {
         clearTableSelection();
-        addEditFromController.editItem(item);
+        addEditMemberController.editMember(member);
     }
 
-    private void addItem() {
+    private void addMember() {
         clearTableSelection();
-        addEditFromController.addItem();
+        addEditMemberController.addMember();
     }
 }

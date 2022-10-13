@@ -20,7 +20,7 @@
 
     <BorderPane fx:id="borderPane" maxHeight="350" prefHeight="350">
         <fx:define>
-            <fx:include fx:id="lendReceiveForm" source="lend-receive-item-form.fxml" />
+            <fx:include fx:id="lendReceiveForm" source="lend-item-form.fxml" />
         </fx:define>
         <fx:define>
             <fx:include fx:id="itemsTable" source="items-table.fxml" />

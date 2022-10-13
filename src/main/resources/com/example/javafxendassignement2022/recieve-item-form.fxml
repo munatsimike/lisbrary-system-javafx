@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController"
+      alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
+    <fx:include fx:id="notification" source="notification.fxml"/>
+    <TextField fx:id="itemCodeReceive" promptText="Item Code"/>
+    <Button fx:id="receiveItemBtn" styleClass="lend-receive-button" onAction="#onButtonClick" text="Receive Item"/>
+    <HBox.margin>
+        <Insets left="12.0"/>
+    </HBox.margin>
+    <padding>
+        <Insets left="15.0" right="15.0" top="20.0"/>
+    </padding>
+</VBox>

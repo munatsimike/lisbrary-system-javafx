@@ -7,7 +7,7 @@
 
 <VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.MemberController">
+      fx:controller="com.example.javafxendassignement2022.controller.MemberTableController">
 
     <StackPane>
         <fx:include fx:id="search" source="search-form.fxml"/>
