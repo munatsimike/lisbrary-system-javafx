@@ -1,6 +1,6 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.MessageType;
@@ -35,10 +35,9 @@ public class AddEditItemFormController implements Initializable {
     @FXML
     private NotificationController notificationController;
     private Stage stage;
-    private ItemDatabase itemDataBase;
+    private final ItemMemberDatabase itemDataBase;
 
-    public void iniDatabase(ItemDatabase itemsDatabase) {
-        initComboBoxListener();
+    public AddEditItemFormController(ItemMemberDatabase itemsDatabase) {
         this.itemDataBase = itemsDatabase;
     }
 
@@ -71,7 +70,7 @@ public class AddEditItemFormController implements Initializable {
         if (actionEvent.getSource().equals(addButton)) {
             try {
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
-                    itemDataBase.addItem(new Item(itemDataBase.getId(), availableCombox.getValue(), title.getText(), author.getText()));
+                    itemDataBase.addItem(new Item(itemDataBase.getItemCode(), availableCombox.getValue(), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item saved successfully", MessageType.Success);
                     System.out.println("added");
                 } else {

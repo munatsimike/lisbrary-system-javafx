@@ -1,7 +1,6 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.MessageType;
@@ -9,7 +8,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
@@ -20,12 +18,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class ItemTableController implements Initializable {
-
-    private ObservableList<Item> selectedItems;
-    private TableView.TableViewSelectionModel<Item> selectionModel;
-    private FilteredList<Item> filteredData;
-    private ItemDatabase itemsDatabase;
+public class ItemTableController extends BaseController implements Initializable {
 
     @FXML
     private TableView<Item> itemTable;
@@ -36,33 +29,29 @@ public class ItemTableController implements Initializable {
     @FXML
     private NotificationController notificationController;
     private AddEditItemFormController addEditFromController;
+    private ObservableList<Item> selectedItems;
+    private TableView.TableViewSelectionModel<Item> selectionModel;
+    private FilteredList<Item> filteredData;
+    private ItemMemberDatabase itemsDatabase;
 
-    public ItemTableController() {
-        itemsDatabase = new ItemDatabase();
-        filteredData = new FilteredList<>(itemsDatabase.getItems());
+    public ItemTableController(ItemMemberDatabase itemDataBase) {
+        this.itemsDatabase = itemDataBase;
     }
 
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(itemTable);
-        System.out.println(itemsDatabase);
-        System.out.println(filteredData);
-        // Configure the TableView
+        filteredData = new FilteredList<>(itemsDatabase.getItems());
+        itemTable.setItems(filteredData);
         initItemFormController();
         setSelectionMode();
         searchQueryListener();
         formButtonListener();
+        clearNotification();
     }
 
     private void initItemFormController() {
-        itemTable.setItems(filteredData);
-        FXMLLoader loader = new FXMLLoader(LibrarySystem.class.getResource("add-edit-item-form.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        addEditFromController = loader.getController();
-        addEditFromController.iniDatabase(itemsDatabase);
+        addEditFromController = new AddEditItemFormController(itemsDatabase);
+        loadScene("add-edit-item-form.fxml", addEditFromController);
     }
 
     private void formButtonListener() {
@@ -137,3 +126,4 @@ public class ItemTableController implements Initializable {
         addEditFromController.addItem();
     }
 }
+

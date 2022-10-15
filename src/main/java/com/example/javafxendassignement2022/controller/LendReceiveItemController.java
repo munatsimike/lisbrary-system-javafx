@@ -1,20 +1,19 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.model.Item;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LendReceiveItemController implements Initializable {
+
 
     @FXML
     public TextField itemCodeLend;
@@ -30,6 +29,12 @@ public class LendReceiveItemController implements Initializable {
     @FXML
     private NotificationController notificationController;
     private ItemTableController itemTableController;
+    private final ItemMemberDatabase itemDatabase;
+
+    public LendReceiveItemController(ItemMemberDatabase itemDataBase) {
+        this.itemDatabase = itemDataBase;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         focusChangeListener();
@@ -40,6 +45,7 @@ public class LendReceiveItemController implements Initializable {
             if (actionEvent.getSource().equals(lendItemBtn)) {
                 validateItemMemberId(itemCodeLend.getText());
                 validateItemMemberId(memberIdentifier.getText());
+                itemDatabase.addItem(new Item(1,"yes", "yes", "yes"));
             } else {
                 validateItemMemberId(itemCodeReceive.getText());
             }
@@ -60,10 +66,8 @@ public class LendReceiveItemController implements Initializable {
         }
         notificationController.clearNotificationText();
     }
-
     private void focusChangeListener(){
         itemCodeReceive.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            System.out.println(aBoolean);
             System.out.println(t1);
         });
     }

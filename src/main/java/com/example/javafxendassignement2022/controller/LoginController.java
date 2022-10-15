@@ -1,18 +1,18 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.UserDatabase;
 import com.example.javafxendassignement2022.enums.MessageType;
 import com.example.javafxendassignement2022.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -28,10 +28,8 @@ public class LoginController {
     @FXML
     private NotificationController notificationController;
     private final UserDatabase userDatabase;
-    private final FXMLLoader loader;
 
     public LoginController() {
-        loader = new FXMLLoader();
         userDatabase = new UserDatabase();
     }
 
@@ -43,19 +41,15 @@ public class LoginController {
             userDatabase.findUser(new User(usernameTxtField.getText(), passwordTxtField.getText()));
             openManinWindow(usernameTxtField.getText());
         } catch (Exception e) {
+            e.printStackTrace();
             notificationController.setNotificationText(e.getMessage(), MessageType.Error);
         }
     }
 
     private void openManinWindow(String loggedInUser) throws IOException {
-        loader.setLocation(LibrarySystem.class.getResource("main-window.fxml"));
-        Parent root = loader.load();
-        MainWindowController mainWindowController = loader.getController();
-        mainWindowController.setWelcomeLabelText(loggedInUser);
-        Scene scene = new Scene(root, 800, 550);
         Stage stage = (Stage) vBox.getScene().getWindow();
-        stage.setScene(scene);
-        stage.centerOnScreen();
+        MainWindowController mainWindowController = new MainWindowController(loggedInUser, stage);
+        mainWindowController.showMainWindow();
     }
 
     private void validatePassword(String password) throws Exception {
@@ -86,5 +80,16 @@ public class LoginController {
     public void onCancelButtonClick(ActionEvent actionEvent) {
         Stage stage = (Stage) vBox.getScene().getWindow();
         stage.close();
+    }
+
+    public void showLoginWindow(Stage stage, Parent parent) {
+        Scene scene = new Scene(parent, 500, 350, Color.BLACK);
+        stage.setTitle("Login");
+        if (!stage.isShowing()) {
+            stage.initStyle(StageStyle.UNDECORATED);
+        }
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

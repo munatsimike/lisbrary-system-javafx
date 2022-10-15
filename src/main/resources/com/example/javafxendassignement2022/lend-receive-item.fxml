@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <HBox maxHeight="410.0" minHeight="410" styleClass="light-blue-background-color" stylesheets="@../../../css/style.css"
-      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.LendReceiveItemController">
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="25.0" left="20.0" right="20.0" top="20.0"/>
     </padding>

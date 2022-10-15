@@ -1,7 +1,6 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.MemberDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.MessageType;
@@ -20,11 +19,11 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class MemberTableController implements Initializable {
+public class MemberTableController extends BaseController implements Initializable {
     private ObservableList<Member> selectedMembers;
     private TableView.TableViewSelectionModel<Member> selectionModel;
-    private final FilteredList<Member> filteredData;
-    private final MemberDatabase memberDatabase;
+    private FilteredList<Member> filteredData;
+    private final ItemMemberDatabase memberDatabase;
 
     @FXML
     private TableView<Member> membersTable;
@@ -38,35 +37,25 @@ public class MemberTableController implements Initializable {
     private AddEditMemberFormController addEditMemberController;
     private FXMLLoader loader;
 
-    public MemberTableController() {
-        memberDatabase = new MemberDatabase();
-        filteredData = new FilteredList<>(memberDatabase.getMembers());
-        loader = new FXMLLoader();
-
+    public MemberTableController(ItemMemberDatabase memberDatabase) {
+        this.memberDatabase = memberDatabase;
     }
 
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Configure the TableView
+        filteredData = new FilteredList<>(memberDatabase.getMembers());
         membersTable.setItems(filteredData);
         searchController.setPromptText("firstname, lastname");
-        setSelectionMode();
         initMemberFormController();
-        clearTableSelection();
-        searchQueryListener();
         formButtonListener();
-        clearNotification();
+        searchQueryListener();
+        setSelectionMode();
+        clearTableSelection();
     }
 
     private void initMemberFormController() {
-        membersTable.setItems(filteredData);
-        loader.setLocation(LibrarySystem.class.getResource("add-edit-member-form.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        addEditMemberController = loader.getController();
-        addEditMemberController.initDatabase(memberDatabase);
+        addEditMemberController = new AddEditMemberFormController(memberDatabase);
+        loadScene("add-edit-member-form.fxml", addEditMemberController);
     }
 
     private void formButtonListener() {
@@ -110,7 +99,7 @@ public class MemberTableController implements Initializable {
 
     }
 
-    private void clearNotification(){
+    private void clearNotification() {
         selectedMembers.addListener((ListChangeListener<Member>) change -> {
             notificationController.clearNotificationText();
         });

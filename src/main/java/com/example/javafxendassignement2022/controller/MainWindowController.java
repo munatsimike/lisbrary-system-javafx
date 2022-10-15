@@ -1,7 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
-import com.example.javafxendassignement2022.database.ItemDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,51 +9,46 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MainWindowController implements Initializable {
+public class MainWindowController extends BaseController implements Initializable {
     @FXML
-    public Label welcomeLabel;
+    private Label welcomeLabel;
+
     @FXML
-    public VBox membersTableContainer;
-    @FXML
-    public VBox itemsTableContainer;
-    @FXML
-    public HBox lendReceiveItemFormContainer;
+    private VBox vBoxRootLayout;
+    private MemberTableController memberTableController;
+    public ItemTableController itemTableController;
+    public LendReceiveItemController lendReceiveItemController;
     @FXML
     public BorderPane borderPane;
     @FXML
     private MenuController menuController;
-    private FormController formController;
-    private final ItemDatabase itemDataBase;
+    private ItemMemberDatabase database;
+    private final Stage stage;
 
-    public MainWindowController() {
-        this.itemDataBase = new ItemDatabase();
+    public MainWindowController(String welcomeText, Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource(
+                "main-window.fxml"));
+        fxmlLoader.setController(this);
+        fxmlLoader.load();
+        this.stage = stage;
+        welcomeLabel.setText("Welcome " + welcomeText);
+        borderPane.setCenter(loadScene("lend-receive-item.fxml", lendReceiveItemController));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        borderPane.setCenter(lendReceiveItemFormContainer);
+        this.database = new ItemMemberDatabase();
+        itemTableController = new ItemTableController(database);
+        memberTableController = new MemberTableController(database);
+        lendReceiveItemController = new LendReceiveItemController(database);
         observeMenuItemChanges();
-        initializeForm();
-        observeFormButtonClicks();
-    }
-
-    private void initializeForm() {
-        FXMLLoader loader = new FXMLLoader(LibrarySystem.class.getResource("bottom-form.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        formController = loader.getController();
     }
 
     private void observeMenuItemChanges() {
@@ -66,19 +61,13 @@ public class MainWindowController implements Initializable {
         });
     }
 
-    private void observeFormButtonClicks() {
-        formController.selectedButton().addListener((Observable, oldValue, newValue) -> {
-            System.out.println();
-        });
-    }
-
     private void navigationGraph(String selectedMenu) throws IOException {
         if (Objects.equals(selectedMenu, menuController.collection.getText())) {
-            borderPane.setCenter(itemsTableContainer);
+            borderPane.setCenter(loadScene("item-table.fxml", itemTableController));
         } else if (Objects.equals(selectedMenu, menuController.members.getText())) {
-            borderPane.setCenter(membersTableContainer);
+            borderPane.setCenter(loadScene("members-table.fxml", memberTableController));
         } else if (Objects.equals(selectedMenu, menuController.lendingReceiving.getText())) {
-            borderPane.setCenter(lendReceiveItemFormContainer);
+            borderPane.setCenter(loadScene("lend-receive-item.fxml", lendReceiveItemController));
         } else {
             logout();
         }
@@ -87,14 +76,14 @@ public class MainWindowController implements Initializable {
     private void logout() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource("login.fxml"));
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 500, 350);
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.setScene(scene);
-        stage.centerOnScreen();
+        LoginController loginController = fxmlLoader.getController();
+        loginController.showLoginWindow((Stage) borderPane.getScene().getWindow(), root);
     }
 
-    public void setWelcomeLabelText(String user) {
-        welcomeLabel.setText("Welcome " + user);
+    public void showMainWindow() {
+        Scene scene = new Scene(vBoxRootLayout, 800, 550);
+        stage.setScene(scene);
+        stage.centerOnScreen();
     }
 }
 

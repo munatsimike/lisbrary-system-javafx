@@ -7,7 +7,7 @@
     -fx-background-color: #0d5ec5;
 }
 
-.grey-background-color, .edit-cancel-button, .cancel-button {
+.grey-background-color, .edit-cancel-button {
     -fx-background-color: grey;
 }
 
@@ -19,7 +19,7 @@
     -fx-background-color: #94bad5;
 }
 
-.red-background-color, .delete-button{
+.red-background-color, .delete-button, .cancel-button{
     -fx-background-color: red;
 }
 

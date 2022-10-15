@@ -1,6 +1,6 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.database.MemberDatabase;
+import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.MessageType;
@@ -38,9 +38,9 @@ public class AddEditMemberFormController implements Initializable {
     @FXML
     NotificationController notificationController;
     private Stage stage;
-    private MemberDatabase memberDatabase;
+    private ItemMemberDatabase memberDatabase;
 
-    public void initDatabase(MemberDatabase memberDatabase) {
+    public AddEditMemberFormController(ItemMemberDatabase memberDatabase) {
         this.memberDatabase = memberDatabase;
     }
 
@@ -71,7 +71,7 @@ public class AddEditMemberFormController implements Initializable {
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
                     validateFirstLastName(lastName.getText());
                     validateFirstLastName(firstName.getText());
-                    memberDatabase.addMember(new Member(memberDatabase.getId(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
+                    memberDatabase.addMember(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
                     notificationController.setNotificationText("Member saved successfully", MessageType.Success);
                     clearForm();
                 } else {
@@ -86,7 +86,6 @@ public class AddEditMemberFormController implements Initializable {
             clearForm();
             stage.hide();
             notificationController.clearNotificationText();
-
         }
     }
 

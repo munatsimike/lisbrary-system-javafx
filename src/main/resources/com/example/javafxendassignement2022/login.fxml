@@ -18,7 +18,7 @@
     <TextField fx:id="usernameTxtField" promptText="Username" text="munatsimike"/>
     <PasswordField fx:id="passwordTxtField" promptText="Password" text="RukudzoM7*"/>
     <Button onAction="#onLoginButtonClick" styleClass="login-button" text="Login"/>
-    <Button onAction="#onCancelButtonClick" styleClass="cancel-button" text="Cancel"/>
+    <Button onAction="#onCancelButtonClick" styleClass="cancel-button" text="Close"/>
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
     </padding>

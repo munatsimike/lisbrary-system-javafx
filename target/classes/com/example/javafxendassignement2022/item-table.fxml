@@ -5,9 +5,8 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="itemTableContainer" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.javafxendassignement2022.controller.ItemTableController"
       styleClass="light-blue-background-color">
     <StackPane>
         <fx:include fx:id="search" source="search-form.fxml" />

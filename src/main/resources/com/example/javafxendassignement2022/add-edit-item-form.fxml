@@ -6,7 +6,7 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<VBox fx:id="vBoxParent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.AddEditItemFormController">
+<VBox fx:id="vBoxParent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
     <fx:include fx:id="notification" source="notification.fxml" />
     <GridPane hgap="20.0" prefHeight="160" vgap="20.0">
         <TextField fx:id="title" prefWidth="400" promptText="Title" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />

@@ -5,28 +5,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MainWindowController">
-    <fx:include fx:id="menu" source="menu.fxml" />
+<VBox fx:id="vBoxRootLayout"  stylesheets="@../../../css/style.css"
+         xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:include fx:id="menu" source="menu.fxml"/>
     <HBox alignment="CENTER_LEFT" maxHeight="40" minHeight="40" styleClass="light-blue-background-color">
         <Label fx:id="welcomeLabel" maxWidth="Infinity">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <HBox.margin>
-            <Insets left="15.0" top="15.0" />
-         </HBox.margin>
+            <font>
+                <Font size="20.0"/>
+            </font>
+            <HBox.margin>
+                <Insets left="15.0" top="15.0"/>
+            </HBox.margin>
         </Label>
     </HBox>
-
-    <BorderPane fx:id="borderPane" maxHeight="350" prefHeight="350">
-        <fx:define>
-            <fx:include fx:id="lendReceiveItemFormContainer" source="lend-receive-item.fxml" />
-        </fx:define>
-        <fx:define>
-            <fx:include fx:id="itemsTableContainer" source="item-table.fxml" />
-        </fx:define>
-        <fx:define>
-            <fx:include fx:id="membersTableContainer" source="members-table.fxml" />
-        </fx:define>
-    </BorderPane>
+    <BorderPane fx:id="borderPane" maxHeight="350" prefHeight="350"/>
 </VBox>
