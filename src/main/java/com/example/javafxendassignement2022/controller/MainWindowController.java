@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -19,18 +20,17 @@ import java.util.ResourceBundle;
 public class MainWindowController extends BaseController implements Initializable {
     @FXML
     private Label welcomeLabel;
-
     @FXML
     private VBox vBoxRootLayout;
-    private MemberTableController memberTableController;
-    public ItemTableController itemTableController;
-    public LendReceiveItemController lendReceiveItemController;
     @FXML
     public BorderPane borderPane;
     @FXML
     private MenuController menuController;
     private ItemMemberDatabase database;
     private final Stage stage;
+    private MemberTableController memberTableController;
+    public ItemTableController itemTableController;
+    public LendReceiveItemController lendReceiveItemController;
 
     public MainWindowController(String welcomeText, Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource(
