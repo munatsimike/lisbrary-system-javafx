@@ -1,7 +1,7 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.UserDatabase;
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import com.example.javafxendassignement2022.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +42,7 @@ public class LoginController {
             openManinWindow(usernameTxtField.getText());
         } catch (Exception e) {
             e.printStackTrace();
-            notificationController.setNotificationText(e.getMessage(), MessageType.Error);
+            notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
         }
     }
 

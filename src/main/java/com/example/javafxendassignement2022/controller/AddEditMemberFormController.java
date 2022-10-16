@@ -3,7 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,15 +72,15 @@ public class AddEditMemberFormController implements Initializable {
                     validateFirstLastName(lastName.getText());
                     validateFirstLastName(firstName.getText());
                     memberDatabase.addMember(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
-                    notificationController.setNotificationText("Member saved successfully", MessageType.Success);
+                    notificationController.setNotificationText("Member saved successfully", NotificationType.Success);
                     clearForm();
                 } else {
-                    notificationController.setNotificationText("Member edited successfully", MessageType.Success);
+                    notificationController.setNotificationText("Member edited successfully", NotificationType.Success);
                 }
             } catch (DateTimeParseException e) {
-                notificationController.setNotificationText("Invalid date format", MessageType.Error);
+                notificationController.setNotificationText("Invalid date format", NotificationType.Error);
             } catch (Exception e) {
-                notificationController.setNotificationText(e.getMessage(), MessageType.Error);
+                notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
             }
         } else {
             clearForm();

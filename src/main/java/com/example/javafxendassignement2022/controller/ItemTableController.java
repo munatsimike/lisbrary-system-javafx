@@ -3,7 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -60,7 +60,7 @@ public class ItemTableController extends BaseController implements Initializable
                 if (selectedItems.size() == 1) {
                     itemsDatabase.deleteItem(selectedItems.get(0).getItemCode());
                 } else {
-                    notificationController.setNotificationText("No item selected, select an item to delete", MessageType.Error);
+                    notificationController.setNotificationText("No item selected, select an item to delete", NotificationType.Error);
                 }
             } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
@@ -68,7 +68,7 @@ public class ItemTableController extends BaseController implements Initializable
                         addEditFromController.setAddEditButtonText(ButtonText.EDIT_ITEM);
                         editItem(selectedItems.get(0));
                     } else {
-                        notificationController.setNotificationText("No item selected, select an item to edit", MessageType.Error);
+                        notificationController.setNotificationText("No item selected, select an item to edit", NotificationType.Error);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

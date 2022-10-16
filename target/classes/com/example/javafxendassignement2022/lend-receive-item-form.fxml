@@ -14,7 +14,6 @@
         <fx:include fx:id="notification" source="notification.fxml"/>
         <TextField fx:id="itemCodeLend" promptText="Item Code"/>
         <TextField fx:id="memberIdentifier" promptText="Member identifier"/>
-
         <Button fx:id="lendItemBtn" onAction="#onButtonClick" styleClass="lend-receive-button" text="Lend Item"/>
         <HBox.margin>
             <Insets right="12.0"/>
@@ -25,7 +24,7 @@
     </VBox>
 
     <VBox alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
-        <fx:include fx:id="notifications" source="notification.fxml"/>
+        <fx:include fx:id="notification1" source="notification.fxml"/>
         <TextField fx:id="itemCodeReceive" promptText="Item Code"/>
         <Button fx:id="receiveItemBtn" styleClass="lend-receive-button" onAction="#onButtonClick" text="Receive Item"/>
         <HBox.margin>

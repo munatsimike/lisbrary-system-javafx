@@ -1,17 +1,12 @@
 package com.example.javafxendassignement2022.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Member {
-    private int identifier;
+    private final int identifier;
     protected String firstName;
     protected String lastName;
     private LocalDate dateOfBirth;
-
-    public void setIdentifier(int identifier) {
-        this.identifier = identifier;
-    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

@@ -39,7 +39,7 @@ public class MainWindowController extends BaseController implements Initializabl
         fxmlLoader.load();
         this.stage = stage;
         welcomeLabel.setText("Welcome " + welcomeText);
-        borderPane.setCenter(loadScene("lend-receive-item.fxml", lendReceiveItemController));
+        borderPane.setCenter(loadScene("lend-receive-item-form.fxml", lendReceiveItemController));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class MainWindowController extends BaseController implements Initializabl
         } else if (Objects.equals(selectedMenu, menuController.members.getText())) {
             borderPane.setCenter(loadScene("members-table.fxml", memberTableController));
         } else if (Objects.equals(selectedMenu, menuController.lendingReceiving.getText())) {
-            borderPane.setCenter(loadScene("lend-receive-item.fxml", lendReceiveItemController));
+            borderPane.setCenter(loadScene("lend-receive-item-form.fxml", lendReceiveItemController));
         } else {
             logout();
         }

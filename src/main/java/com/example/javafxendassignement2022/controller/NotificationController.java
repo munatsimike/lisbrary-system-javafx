@@ -1,6 +1,6 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -11,11 +11,10 @@ public class NotificationController {
     @FXML
     private Label notificationLabel;
 
-    public void setNotificationText(String text, MessageType messageType) {
+    public void setNotificationText(String text, NotificationType messageType) {
         if(text.length() == 0){
             return;
         }
-        System.out.println(text);
         notificationBackgroundColor(messageType);
         notificationLabel.setText(text);
         showHideLabel();
@@ -33,11 +32,13 @@ public class NotificationController {
         });
     }
 
-    private void notificationBackgroundColor(MessageType messageType) {
-        if (messageType.equals(MessageType.Error)) {
+    private void notificationBackgroundColor(NotificationType messageType) {
+        if (messageType.equals(NotificationType.Error)) {
             hBoxParent.setStyle("-fx-background-color: rgba(255,0,0,0.61)");
-        } else {
+        } else if (messageType.equals(NotificationType.Success)){
             hBoxParent.setStyle("-fx-background-color: rgba(0,128,0,0.62)");
+        }else{
+            hBoxParent.setStyle("-fx-background-color: rgb(95,14,171)");
         }
     }
 }

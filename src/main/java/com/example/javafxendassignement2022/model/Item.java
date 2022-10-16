@@ -1,5 +1,7 @@
 package com.example.javafxendassignement2022.model;
 
+import com.example.javafxendassignement2022.enums.Availability;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Item implements Serializable {
-    private int itemCode;
-    private String available;
+    private final int itemCode;
+    private Availability available;
     private String title;
     private String author;
 
@@ -16,15 +18,11 @@ public class Item implements Serializable {
         return itemCode;
     }
 
-    public void setItemCode(int itemCode) {
-        this.itemCode = itemCode;
-    }
-
-    public String getAvailable() {
+    public Availability getAvailable() {
         return available;
     }
 
-    public void setAvailable(String available) {
+    public void setAvailable(Availability available) {
         this.available = available;
     }
 
@@ -44,31 +42,14 @@ public class Item implements Serializable {
         this.author = author;
     }
 
-    public Item(int itemCode, String availability, String title, String author) {
+    public Item(int itemCode, Availability available) {
         this.itemCode = itemCode;
-        this.available = availability;
+        this.available = available;
+    }
+
+    public Item(int itemCode, Availability availability, String title, String author) {
+        this(itemCode, availability);
         this.title = title;
         this.author = author;
-    }
-
-    public boolean isSamePerson(Item person1, Item person2) {
-        for (Field field : getAllFields(person1.getClass())) {
-            try {
-                if (!field.get(person1).equals(field.get(person2)))
-                    return false;
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-    }
-
-    // get all fields of a child class and base classes
-    public static List<Field> getAllFields(Class<?> type) {
-        List<Field> fields = new ArrayList<>();
-        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-            fields.addAll(Arrays.asList(c.getDeclaredFields()));
-        }
-        return fields;
     }
 }

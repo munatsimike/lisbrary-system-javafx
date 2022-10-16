@@ -3,7 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -64,7 +64,7 @@ public class MemberTableController extends BaseController implements Initializab
                 if (selectedMembers.size() == 1) {
                     memberDatabase.deleteMember(selectedMembers.get(0).getIdentifier());
                 } else {
-                    notificationController.setNotificationText("No member selected, select a member to delete", MessageType.Error);
+                    notificationController.setNotificationText("No member selected, select a member to delete", NotificationType.Error);
                 }
             } else if (Objects.equals(newValue, formController.editButton.getText())) {
                 try {
@@ -73,7 +73,7 @@ public class MemberTableController extends BaseController implements Initializab
                         editMember(selectedMembers.get(0));
 
                     } else {
-                        notificationController.setNotificationText("No member selected, select a member to edit", MessageType.Error);
+                        notificationController.setNotificationText("No member selected, select a member to edit", NotificationType.Error);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

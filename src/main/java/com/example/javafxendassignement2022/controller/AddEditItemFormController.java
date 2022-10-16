@@ -1,9 +1,10 @@
 package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
+import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
-import com.example.javafxendassignement2022.enums.MessageType;
+import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,7 +59,7 @@ public class AddEditItemFormController implements Initializable {
     public void editItem(Item item) {
         author.setText(item.getAuthor());
         title.setText(item.getTitle());
-        availableCombox.setValue(item.getAvailable());
+        availableCombox.setValue(item.getAvailable().toString());
         showForm("Edit item");
     }
 
@@ -70,16 +71,16 @@ public class AddEditItemFormController implements Initializable {
         if (actionEvent.getSource().equals(addButton)) {
             try {
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
-                    itemDataBase.addItem(new Item(itemDataBase.getItemCode(), availableCombox.getValue(), title.getText(), author.getText()));
-                    notificationController.setNotificationText("Item saved successfully", MessageType.Success);
+                    itemDataBase.addItem(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
+                    notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
                     System.out.println("added");
                 } else {
                     System.out.println("edited");
-                    notificationController.setNotificationText("Item edited successfully", MessageType.Success);
+                    notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
 
                 }
             } catch (Exception e) {
-                notificationController.setNotificationText(e.getMessage(), MessageType.Error);
+                notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
             }
 
         } else {
