@@ -10,13 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemMemberDatabase {
     ObservableList<Item> items;
     ObservableList<Member> members;
-    List<Transaction> transactions;
+    ObservableList<Transaction> transactions;
 
     public ItemMemberDatabase() {
         iniItemDatabase();
@@ -25,7 +24,7 @@ public class ItemMemberDatabase {
     }
 
     private void transactions() {
-        transactions = new ArrayList<>();
+        transactions = FXCollections.observableArrayList();
         transactions.add(new Transaction(1, 1, LocalDate.of(2022, 9, 1), TransactionType.LEND));
     }
 
@@ -47,21 +46,46 @@ public class ItemMemberDatabase {
         items.add(new Item(5, Availability.Yes, "12345678", "Tatenda"));
     }
 
-    public int getItemCode() {
-        int id = items.size() + 1;
-        return id++;
+    public <T> ObservableList<T> getRecords(Class<T> tClass) {
+        if (tClass.equals(Item.class)) {
+            return (ObservableList<T>) items;
+        } else if (tClass.equals(Member.class)) {
+            return (ObservableList<T>) members;
+        }
+        return (ObservableList<T>) transactions;
     }
 
-    public ObservableList<Item> getItems() {
-        return items;
+    public <T> void deleteRecord(int id, Class<T> tClass) {
+        if (tClass.equals(Item.class)) {
+            items.removeIf(item -> item.getItemCode() == id);
+        } else {
+            members.removeIf(member -> member.getIdentifier() == id);
+        }
     }
 
-    public void deleteItem(int id) {
-        items.removeIf(item -> item.getItemCode() == id);
+    public <T> void saveListToDatabase(List<T> list) throws Exception {
+        if (list.get(0) instanceof Item) {
+            items.clear();
+            items.addAll((List<Item>) list);
+        } else if (list.get(0) instanceof Member) {
+            members.clear();
+            members.addAll((List<Member>) list);
+        } else if (list.get(0) instanceof Transaction) {
+            transactions.clear();
+            transactions.addAll((List<Transaction>) list);
+        } else {
+            throw new Exception("Unknown object type, list cannot be saved");
+        }
     }
 
-    public void addItem(Item item) {
-        items.add(item);
+    public <T> void addRecord(T object) {
+        if (object instanceof Item) {
+            items.add((Item) object);
+        } else if (object instanceof Member) {
+            members.add((Member) object);
+        } else if (object instanceof Transaction) {
+            transactions.add((Transaction) object);
+        }
     }
 
     public void editItem(Item newItem) {
@@ -84,24 +108,6 @@ public class ItemMemberDatabase {
 
     /**********************************/
 
-
-    public int getMemberIdentifier() {
-        int id = members.size() + 1;
-        return id++;
-    }
-
-    public ObservableList<Member> getMembers() {
-        return members;
-    }
-
-    public void deleteMember(int id) {
-        members.removeIf(member -> member.getIdentifier() == id);
-    }
-
-    public void addMember(Member member) {
-        members.add(member);
-    }
-
     public void editMember(Member newMember) {
         for (Member oldMember : members) {
             if (oldMember.getIdentifier() == newMember.getIdentifier()) {
@@ -114,10 +120,6 @@ public class ItemMemberDatabase {
 
     /************************************************************/
 
-    public List<Transaction> getAllTransactions() {
-        return transactions;
-    }
-
     public Transaction getTransaction(int code) throws Exception {
         return transactions.stream().filter(item -> item.getItemCode() == code)
                 .findFirst()
@@ -129,7 +131,14 @@ public class ItemMemberDatabase {
         return id++;
     }
 
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
+    public int getMemberIdentifier() {
+        int id = members.size() + 1;
+        return id++;
     }
+
+    public int getItemCode() {
+        int id = items.size() + 1;
+        return id++;
+    }
+
 }

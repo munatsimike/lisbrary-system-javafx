@@ -2,6 +2,10 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
+import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.model.Member;
+import com.example.javafxendassignement2022.model.Transaction;
+import com.example.javafxendassignement2022.service.MainWindowService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,8 +33,10 @@ public class MainWindowController extends BaseController implements Initializabl
     private ItemMemberDatabase database;
     private final Stage stage;
     private MemberTableController memberTableController;
-    public ItemTableController itemTableController;
-    public LendReceiveItemController lendReceiveItemController;
+    private ItemTableController itemTableController;
+    private LendReceiveItemController lendReceiveItemController;
+    private MainWindowService mainWindowService;
+
 
     public MainWindowController(String welcomeText, Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource(
@@ -48,6 +54,7 @@ public class MainWindowController extends BaseController implements Initializabl
         itemTableController = new ItemTableController(database);
         memberTableController = new MemberTableController(database);
         lendReceiveItemController = new LendReceiveItemController(database);
+        mainWindowService = new MainWindowService(database);
         observeMenuItemChanges();
     }
 
@@ -78,6 +85,9 @@ public class MainWindowController extends BaseController implements Initializabl
         Parent root = fxmlLoader.load();
         LoginController loginController = fxmlLoader.getController();
         loginController.showLoginWindow((Stage) borderPane.getScene().getWindow(), root);
+        mainWindowService.saveListToFile("items", database.getRecords(Item.class));
+        mainWindowService.saveListToFile("members", database.getRecords(Member.class));
+        mainWindowService.saveListToFile("transactions", database.getRecords(Transaction.class));
     }
 
     public void showMainWindow() {

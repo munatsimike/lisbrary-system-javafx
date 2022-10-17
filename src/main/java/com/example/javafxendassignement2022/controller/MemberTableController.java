@@ -43,7 +43,7 @@ public class MemberTableController extends BaseController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        filteredData = new FilteredList<>(memberDatabase.getMembers());
+        filteredData = new FilteredList<>(memberDatabase.getRecords(Member.class));
         membersTable.setItems(filteredData);
         searchController.setPromptText("firstname, lastname");
         initMemberFormController();
@@ -62,7 +62,7 @@ public class MemberTableController extends BaseController implements Initializab
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, formController.deleteButton.getText())) {
                 if (selectedMembers.size() == 1) {
-                    memberDatabase.deleteMember(selectedMembers.get(0).getIdentifier());
+                    memberDatabase.deleteRecord(selectedMembers.get(0).getIdentifier(), Member.class);
                 } else {
                     notificationController.setNotificationText("No member selected, select a member to delete", NotificationType.Error);
                 }

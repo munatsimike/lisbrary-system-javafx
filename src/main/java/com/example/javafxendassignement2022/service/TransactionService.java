@@ -14,12 +14,12 @@ public record TransactionService(ItemMemberDatabase database) {
 
     public void lend(int code, int memberIdentifier) throws Exception {
         updateAvailability(new Item(code, Availability.No), TransactionType.LEND);
-        database.addTransaction(new Transaction(code, memberIdentifier, LocalDate.now(), TransactionType.LEND));
+        database.addRecord(new Transaction(code, memberIdentifier, LocalDate.now(), TransactionType.LEND));
     }
 
     public void receive(int code) throws Exception {
         updateAvailability(new Item(code, Availability.Yes), TransactionType.RECEIVE);
-        database.addTransaction(new Transaction(database.getTransactionId(), code, LocalDate.now(), TransactionType.RECEIVE));
+        database.addRecord(new Transaction(database.getTransactionId(), code, LocalDate.now(), TransactionType.RECEIVE));
         if (isOverDue(code)) {
             throw new ItemOverdueException();
         }

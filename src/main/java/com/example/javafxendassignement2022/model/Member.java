@@ -1,8 +1,9 @@
 package com.example.javafxendassignement2022.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Member {
+public class Member implements Serializable {
     private final int identifier;
     protected String firstName;
     protected String lastName;

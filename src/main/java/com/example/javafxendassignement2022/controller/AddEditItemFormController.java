@@ -60,10 +60,12 @@ public class AddEditItemFormController implements Initializable {
         author.setText(item.getAuthor());
         title.setText(item.getTitle());
         availableCombox.setValue(item.getAvailable().toString());
+        notificationController.clearNotificationText();
         showForm("Edit item");
     }
 
     public void addItem() {
+        notificationController.clearNotificationText();
         showForm("Add item");
     }
 
@@ -71,13 +73,10 @@ public class AddEditItemFormController implements Initializable {
         if (actionEvent.getSource().equals(addButton)) {
             try {
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
-                    itemDataBase.addItem(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
+                    itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
-                    System.out.println("added");
                 } else {
-                    System.out.println("edited");
                     notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
-
                 }
             } catch (Exception e) {
                 notificationController.setNotificationText(e.getMessage(), NotificationType.Error);

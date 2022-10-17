@@ -32,7 +32,7 @@ public class ItemTableController extends BaseController implements Initializable
     private ObservableList<Item> selectedItems;
     private TableView.TableViewSelectionModel<Item> selectionModel;
     private FilteredList<Item> filteredData;
-    private ItemMemberDatabase itemsDatabase;
+    private final ItemMemberDatabase itemsDatabase;
 
     public ItemTableController(ItemMemberDatabase itemDataBase) {
         this.itemsDatabase = itemDataBase;
@@ -40,7 +40,7 @@ public class ItemTableController extends BaseController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        filteredData = new FilteredList<>(itemsDatabase.getItems());
+        filteredData = new FilteredList<>(itemsDatabase.getRecords(Item.class));
         itemTable.setItems(filteredData);
         initItemFormController();
         setSelectionMode();
@@ -58,7 +58,7 @@ public class ItemTableController extends BaseController implements Initializable
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, formController.deleteButton.getText())) {
                 if (selectedItems.size() == 1) {
-                    itemsDatabase.deleteItem(selectedItems.get(0).getItemCode());
+                    itemsDatabase.deleteRecord(selectedItems.get(0).getItemCode(),Item.class);
                 } else {
                     notificationController.setNotificationText("No item selected, select an item to delete", NotificationType.Error);
                 }

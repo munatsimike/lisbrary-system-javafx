@@ -58,10 +58,12 @@ public class AddEditMemberFormController implements Initializable {
         firstName.setText(member.getFirstName());
         lastName.setText(member.getLastName());
         dateOfBirth.setValue(member.getDateOfBirth());
+        notificationController.clearNotificationText();
         showForm("Edit member");
     }
 
     public void addMember() {
+        notificationController.clearNotificationText();
         showForm("Add member");
     }
 
@@ -71,7 +73,7 @@ public class AddEditMemberFormController implements Initializable {
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
                     validateFirstLastName(lastName.getText());
                     validateFirstLastName(firstName.getText());
-                    memberDatabase.addMember(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
+                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
                     notificationController.setNotificationText("Member saved successfully", NotificationType.Success);
                     clearForm();
                 } else {

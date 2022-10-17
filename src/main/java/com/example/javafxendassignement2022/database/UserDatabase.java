@@ -13,7 +13,7 @@ public class UserDatabase {
         users.add(new User("someuser", "RukudzoM7*"));
     }
 
-    public void findUser(User user) throws Exception {
+    public void login(User user) throws Exception {
         for (User user1 : users) {
             if (!user1.getUsername().equals(user.getUsername())) {
                 return;

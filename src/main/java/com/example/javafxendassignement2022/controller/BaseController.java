@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import java.io.IOException;
 
 public abstract class BaseController {
-    public Node loadScene(String name, Object controller) {
+    protected Node loadScene(String name, javafx.fxml.Initializable controller) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource(name));
             fxmlLoader.setController(controller);

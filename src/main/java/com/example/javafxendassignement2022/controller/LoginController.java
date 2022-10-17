@@ -3,6 +3,7 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.database.UserDatabase;
 import com.example.javafxendassignement2022.enums.NotificationType;
 import com.example.javafxendassignement2022.model.User;
+import com.example.javafxendassignement2022.service.LoginService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -27,10 +28,10 @@ public class LoginController {
     private TextField usernameTxtField;
     @FXML
     private NotificationController notificationController;
-    private final UserDatabase userDatabase;
+    private final LoginService loginService;
 
     public LoginController() {
-        userDatabase = new UserDatabase();
+        loginService = new LoginService(new UserDatabase());
     }
 
     @FXML
@@ -38,10 +39,10 @@ public class LoginController {
         try {
             validateUserName(usernameTxtField.getText());
             validatePassword(passwordTxtField.getText());
-            userDatabase.findUser(new User(usernameTxtField.getText(), passwordTxtField.getText()));
+            loginService.login(new User(usernameTxtField.getText(), passwordTxtField.getText()));
+            notificationController.clearNotificationText();
             openManinWindow(usernameTxtField.getText());
         } catch (Exception e) {
-            e.printStackTrace();
             notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
         }
     }
@@ -52,29 +53,18 @@ public class LoginController {
         mainWindowController.showMainWindow();
     }
 
-    private void validatePassword(String password) throws Exception {
-        if (password.length() < 8) {
-            throw new Exception("password should contain at least 8 characters");
-        } else if (!password.matches(".*[A-Z].*")) {
-            throw new Exception("password must contain at least 1 uppercase letter");
-        } else if (!password.matches(".*[a-z].*")) {
-            throw new Exception("password must contain at least 1 lowercase letter");
-        } else if (!password.matches(".*[@#*\\$%^&+=].*")) {
-            throw new Exception("password must contain at least 1 special character: [@#*$&+=]");
-        } else {
-            notificationController.clearNotificationText();
-        }
-    }
-
     private void validateUserName(String username) throws Exception {
         if (username.length() < 8) {
             throw new Exception("Username should contain at least 8 characters");
-        } else if (!username.matches("^[0-9a-zA-Z]+$")) {
-            throw new Exception("Username must contain letters and numbers only");
-        } else {
-            notificationController.clearNotificationText();
         }
     }
+
+    private void validatePassword(String password) throws Exception {
+        if (password.length() < 8) {
+            throw new Exception("password should contain at least 8 characters");
+        }
+    }
+
 
     @FXML
     public void onCancelButtonClick(ActionEvent actionEvent) {

@@ -1,8 +1,10 @@
 package com.example.javafxendassignement2022.model;
 import com.example.javafxendassignement2022.enums.TransactionType;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Transaction {
+public class Transaction implements Serializable {
     int transactionId;
     int ItemCode;
     int memberIdentifier;
