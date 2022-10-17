@@ -23,6 +23,12 @@ public class FormController  {
         selectedButton = new SimpleStringProperty(null);
     }
 
+    public void setButtonText(String name){
+        deleteButton.setText(deleteButton.getText() + name);
+        editButton.setText(editButton.getText() + name);
+        addButton.setText(addButton.getText() + name);
+    }
+
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(deleteButton)) {
             selectedButton.set(deleteButton.getText());

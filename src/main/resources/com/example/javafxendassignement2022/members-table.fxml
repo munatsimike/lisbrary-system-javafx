@@ -38,7 +38,7 @@
                 </cellValueFactory>
             </TableColumn>
 
-            <TableColumn prefWidth="200" text="Birth Date">
+            <TableColumn fx:id="dateOfBirthColumn" prefWidth="200" text="Birth Date">
                 <cellValueFactory>
                     <PropertyValueFactory property="dateOfBirth"/>
                 </cellValueFactory>

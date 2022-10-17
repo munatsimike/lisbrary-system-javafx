@@ -2,6 +2,7 @@ package com.example.javafxendassignement2022.controller;
 
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
+import com.example.javafxendassignement2022.model.AbstractConvertCellFactory;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.collections.ListChangeListener;
@@ -11,10 +12,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -33,6 +38,8 @@ public class MemberTableController extends BaseController implements Initializab
     private FormController formController;
     @FXML
     private NotificationController notificationController;
+    @FXML
+    TableColumn<Member, LocalDate> dateOfBirthColumn;
 
     private AddEditMemberFormController addEditMemberController;
     private FXMLLoader loader;
@@ -46,16 +53,23 @@ public class MemberTableController extends BaseController implements Initializab
         filteredData = new FilteredList<>(memberDatabase.getRecords(Member.class));
         membersTable.setItems(filteredData);
         searchController.setPromptText("firstname, lastname");
+        formController.setButtonText("member");
         initMemberFormController();
         formButtonListener();
         searchQueryListener();
         setSelectionMode();
         clearTableSelection();
+        formDate();
     }
 
     private void initMemberFormController() {
         addEditMemberController = new AddEditMemberFormController(memberDatabase);
         loadScene("add-edit-member-form.fxml", addEditMemberController);
+    }
+
+    private void formDate() {
+        dateOfBirthColumn.setCellFactory((AbstractConvertCellFactory<Member, LocalDate>)
+                value -> DateTimeFormatter.ofPattern("dd MMMM yyyy").format(value));
     }
 
     private void formButtonListener() {

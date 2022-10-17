@@ -30,10 +30,10 @@ public class ItemMemberDatabase {
 
     private void initMemberDatabase() {
         members = FXCollections.observableArrayList();
-        members.add(new Member(1, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 17)));
+        members.add(new Member(1, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 18)));
         members.add(new Member(2, "John", "RukudzoM7", LocalDate.of(2022, 10, 17)));
         members.add(new Member(3, "Peter", "RukudzoM7", LocalDate.of(2022, 10, 17)));
-        members.add(new Member(4, "Simon", "RukudzoM7", LocalDate.of(2022, 10, 17)));
+        members.add(new Member(4, "Simon", "RukudzoM7", LocalDate.of(2022, 10, 19)));
         members.add(new Member(5, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 17)));
     }
 

@@ -8,19 +8,14 @@
       xmlns:fx="http://javafx.com/fxml/1">
     <fx:include fx:id="notification" source="notification.fxml"/>
     <GridPane hgap="20.0" prefHeight="160" vgap="20.0">
-        <TextField fx:id="firstName" text="Michael" prefWidth="400" promptText="First name" GridPane.columnIndex="0"
+        <TextField fx:id="firstName" prefWidth="400" promptText="First name" GridPane.columnIndex="0"
                    GridPane.columnSpan="1" GridPane.rowIndex="0"/>
-        <DatePicker fx:id="dateOfBirth" promptText="Date of birth" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <TextField fx:id="lastName" text="Lastname" promptText="Last name" GridPane.columnIndex="0"
+        <DatePicker fx:id="dateOfBirth" promptText="Birth day (dd/mm/yyyy)" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="lastName" promptText="Last name" GridPane.columnIndex="0"
                    GridPane.rowIndex="1"/>
-        <columnConstraints>
-            <ColumnConstraints/>
-            <ColumnConstraints/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints/>
-            <RowConstraints/>
-        </rowConstraints>
+        <Label text="e.g 17/10/2000" GridPane.columnIndex="1" GridPane.rowSpan="2" textFill="#949191"/>
+        <Label fx:id="memberIdentifier"  GridPane.columnIndex="0" GridPane.rowSpan="7" visible="false"/>
+
         <VBox.margin>
             <Insets top="15.0"/>
         </VBox.margin>

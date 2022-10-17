@@ -9,11 +9,11 @@
       fx:controller="com.example.javafxendassignement2022.controller.FormController"
       alignment="CENTER_LEFT" fillHeight="false" maxHeight="85"
       minHeight="85" spacing="10.0" styleClass="light-blue-background-color">
-    <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" text="Add member">
+    <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" text="Add ">
         <HBox.margin>
             <Insets left="15.0"/>
         </HBox.margin>
     </Button>
-    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Edit member"/>
-    <Button fx:id="deleteButton" onAction="#onButtonClick" styleClass="delete-button" text="Delete member"/>
+    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Edit "/>
+    <Button fx:id="deleteButton" onAction="#onButtonClick" styleClass="delete-button" text="Delete "/>
 </HBox>

@@ -8,9 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,7 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
-public class AddEditMemberFormController implements Initializable {
+public class AddEditMemberFormController extends BaseController implements Initializable {
+    @FXML
+    private Label memberIdentifier;
     @FXML
     private TextField firstName;
     @FXML
@@ -55,6 +55,7 @@ public class AddEditMemberFormController implements Initializable {
     }
 
     public void editMember(Member member) {
+        memberIdentifier.setText(String.valueOf(member.getIdentifier()));
         firstName.setText(member.getFirstName());
         lastName.setText(member.getLastName());
         dateOfBirth.setValue(member.getDateOfBirth());
@@ -70,17 +71,19 @@ public class AddEditMemberFormController implements Initializable {
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addMember)) {
             try {
+                validateField(lastName.getText().trim());
+                validateField(firstName.getText().trim());
+                LocalDate birthDay = date(dateOfBirth);
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
-                    validateFirstLastName(lastName.getText());
-                    validateFirstLastName(firstName.getText());
-                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), date(dateOfBirth)));
+                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
                     notificationController.setNotificationText("Member saved successfully", NotificationType.Success);
-                    clearForm();
                 } else {
+                    memberDatabase.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
                     notificationController.setNotificationText("Member edited successfully", NotificationType.Success);
                 }
+                clearForm();
             } catch (DateTimeParseException e) {
-                notificationController.setNotificationText("Invalid date format", NotificationType.Error);
+                notificationController.setNotificationText("Invalid date format, date format should be dd/mm/yyyy", NotificationType.Error);
             } catch (Exception e) {
                 notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
             }
@@ -92,6 +95,7 @@ public class AddEditMemberFormController implements Initializable {
     }
 
     private void clearForm() {
+        memberIdentifier.setText(null);
         firstName.setText(null);
         lastName.setText(null);
         dateOfBirth.setValue(null);
@@ -102,25 +106,12 @@ public class AddEditMemberFormController implements Initializable {
         stage.show();
     }
 
-    private void validateFirstLastName(String text) throws Exception {
-        if (text.length() < 3) {
-            throw new Exception("First and last name must contain at least 3 letters");
-        }
-
-        for (char c : text.toCharArray()) {
-            if (!Character.isLetter(c)) {
-                throw new Exception("First and Last name should only contain letter of the alphabet");
-            }
-        }
-        notificationController.clearNotificationText();
-    }
-
     private LocalDate date(DatePicker datePicker) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
         if (datePicker.getValue() == null) {
             return LocalDate.parse(datePicker.getEditor().getText(), formatter);
         }
-        return LocalDate.parse(datePicker.getValue().format(formatter), formatter);
+        return datePicker.getValue();
     }
 
     public String capitalizeFirstLetter(String str) {

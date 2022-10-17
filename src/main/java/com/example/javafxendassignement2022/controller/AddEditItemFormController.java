@@ -5,6 +5,8 @@ import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +22,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddEditItemFormController implements Initializable {
+public class AddEditItemFormController extends BaseController implements Initializable {
     @FXML
     private ComboBox<String> availableCombox;
     @FXML
@@ -37,6 +39,7 @@ public class AddEditItemFormController implements Initializable {
     private NotificationController notificationController;
     private Stage stage;
     private final ItemMemberDatabase itemDataBase;
+    private Observable observable;
 
     public AddEditItemFormController(ItemMemberDatabase itemsDatabase) {
         this.itemDataBase = itemsDatabase;
@@ -72,10 +75,12 @@ public class AddEditItemFormController implements Initializable {
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addButton)) {
             try {
+                //isAllLetters(title.getText());
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
                     itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
                 } else {
+                    itemDataBase.editItem(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
                 }
             } catch (Exception e) {

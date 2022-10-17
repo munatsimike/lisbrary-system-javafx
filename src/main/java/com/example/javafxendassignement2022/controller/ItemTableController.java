@@ -41,6 +41,7 @@ public class ItemTableController extends BaseController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         filteredData = new FilteredList<>(itemsDatabase.getRecords(Item.class));
+        formController.setButtonText("item");
         itemTable.setItems(filteredData);
         initItemFormController();
         setSelectionMode();
