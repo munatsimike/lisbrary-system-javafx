@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import java.util.Objects;
+
 public class NotificationController {
     @FXML
     public HBox hBoxParent;
@@ -21,14 +23,14 @@ public class NotificationController {
     }
 
     public void clearNotificationText() {
-        if (notificationLabel != null) {
-            notificationLabel.setText(null);
+        if (!Objects.equals(notificationLabel.getText(), "")) {
+            notificationLabel.setText("");
         }
     }
 
     private void showHideLabel() {
         notificationLabel.textProperty().addListener((Observable, oldText, newText) -> {
-            hBoxParent.setVisible(newText != null);
+            hBoxParent.setVisible(newText != "");
         });
     }
 

@@ -3,6 +3,7 @@ package com.example.javafxendassignement2022.database;
 import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.TransactionType;
 import com.example.javafxendassignement2022.exception.ItemNotFoundException;
+import com.example.javafxendassignement2022.exception.MemberNotFoundException;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.model.Transaction;
@@ -104,6 +105,12 @@ public class ItemMemberDatabase {
         return items.stream().filter(item -> item.getItemCode() == code)
                 .findFirst()
                 .orElseThrow(ItemNotFoundException::new);
+    }
+
+    public Item getMember(int code) throws Exception {
+        return items.stream().filter(item -> item.getItemCode() == code)
+                .findFirst()
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     /**********************************/

@@ -11,7 +11,7 @@
     </padding>
 
     <VBox alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
-        <fx:include fx:id="notification" source="notification.fxml"/>
+        <BorderPane fx:id="lendNotificationContainer" maxHeight="35" minHeight="35"/>
         <TextField fx:id="itemCodeLend" promptText="Item Code"/>
         <TextField fx:id="memberIdentifier" promptText="Member identifier"/>
         <Button fx:id="lendItemBtn" onAction="#onButtonClick" styleClass="lend-receive-button" text="Lend Item"/>
@@ -24,7 +24,7 @@
     </VBox>
 
     <VBox alignment="TOP_CENTER" prefWidth="365" spacing="20.0" styleClass="white-background-color">
-        <fx:include fx:id="notification1" source="notification.fxml"/>
+        <BorderPane fx:id="receiveNotificationContainer" maxHeight="35" minHeight="35"/>
         <TextField fx:id="itemCodeReceive" promptText="Item Code"/>
         <Button fx:id="receiveItemBtn" styleClass="lend-receive-button" onAction="#onButtonClick" text="Receive Item"/>
         <HBox.margin>

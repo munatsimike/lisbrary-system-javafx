@@ -1,22 +1,33 @@
 package com.example.javafxendassignement2022.controller;
 
+import com.example.javafxendassignement2022.LibrarySystem;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
-import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.NotificationType;
 import com.example.javafxendassignement2022.enums.TransactionType;
-import com.example.javafxendassignement2022.exception.ItemOverdueException;
-import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.exception.ItemNotFoundException;
+import com.example.javafxendassignement2022.exception.MemberNotFoundException;
+import com.example.javafxendassignement2022.exception.ReturnDateOverdueException;
 import com.example.javafxendassignement2022.service.TransactionService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LendReceiveItemController implements Initializable {
+    @FXML
+    BorderPane lendNotificationContainer;
+    @FXML
+    BorderPane receiveNotificationContainer;
     @FXML
     public TextField itemCodeLend;
     @FXML
@@ -27,9 +38,8 @@ public class LendReceiveItemController implements Initializable {
     public Button receiveItemBtn;
     @FXML
     public Button lendItemBtn;
-
-    @FXML
-    private NotificationController notificationController;
+    private NotificationController lendNotificationController;
+    private NotificationController receiveNotificationController;
     private ItemTableController itemTableController;
     private final ItemMemberDatabase itemDatabase;
     private TransactionService transaction;
@@ -41,7 +51,20 @@ public class LendReceiveItemController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        focusChangeListener();
+        try {
+            lendNotificationController = initNotification(lendNotificationContainer);
+            receiveNotificationController = initNotification(receiveNotificationContainer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private NotificationController initNotification(BorderPane notificationContainer) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        HBox lendFormNotification = loader.load(Objects.requireNonNull(LibrarySystem.class.getResource("notification.fxml")).openStream());
+        NotificationController controller = loader.getController();
+        notificationContainer.setCenter(lendFormNotification);
+        return controller;
     }
 
     public void onButtonClick(ActionEvent actionEvent) {
@@ -50,16 +73,32 @@ public class LendReceiveItemController implements Initializable {
                 validateItemMemberId(itemCodeLend.getText(), TransactionType.LEND);
                 validateItemMemberId(memberIdentifier.getText(), TransactionType.LEND);
                 transaction.lend(Integer.parseInt(itemCodeLend.getText()), Integer.parseInt(memberIdentifier.getText()));
-                notificationController.setNotificationText("Item lent successfully", NotificationType.Success);
+                lendNotificationController.setNotificationText("Item lent successfully", NotificationType.Success);
+                clearLendForm();
             } else {
                 validateItemMemberId(itemCodeReceive.getText(), TransactionType.RECEIVE);
                 transaction.receive(Integer.parseInt(itemCodeReceive.getText()));
-                notificationController.setNotificationText("Item successfully received", NotificationType.Success);
+                receiveNotificationController.setNotificationText("Item successfully received and now available", NotificationType.Success);
+                clearReceiveForm();
             }
-        } catch (ItemOverdueException e) {
-            notificationController.setNotificationText(e.toString(), NotificationType.Info);
+        } catch (ReturnDateOverdueException e) {
+            receiveNotificationController.setNotificationText(e.toString(), NotificationType.Info);
+        } catch (ItemNotFoundException | MemberNotFoundException e) {
+            if (actionEvent.getSource().equals(lendItemBtn)) {
+                lendNotificationController.setNotificationText(e.toString(), NotificationType.Error);
+            } else {
+                receiveNotificationController.setNotificationText(e.toString(), NotificationType.Error);
+            }
         } catch (Exception e) {
-            notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+            if (actionEvent.getSource().equals(lendItemBtn)) {
+                lendNotificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                receiveNotificationController.clearNotificationText();
+                clearReceiveForm();
+            } else {
+                receiveNotificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                lendNotificationController.clearNotificationText();
+                clearLendForm();
+            }
         }
     }
 
@@ -77,11 +116,22 @@ public class LendReceiveItemController implements Initializable {
                 throw new Exception("Invalid item code or member identifier");
             }
         }
-        notificationController.clearNotificationText();
+        lendNotificationController.clearNotificationText();
     }
 
-    private void focusChangeListener() {
-        itemCodeReceive.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-        });
+    private void clearLendForm() {
+        if (!Objects.equals(itemCodeLend.getText(), "")) {
+            itemCodeLend.setText("");
+        }
+
+        if (!Objects.equals(memberIdentifier.getText(), "")) {
+            memberIdentifier.setText("");
+        }
+    }
+
+    private void clearReceiveForm() {
+        if (!Objects.equals(itemCodeReceive.getText(), "")) {
+            itemCodeReceive.setText("");
+        }
     }
 }

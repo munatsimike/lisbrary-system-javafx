@@ -101,10 +101,14 @@ public class AddEditMemberFormController extends BaseController implements Initi
     }
 
     private void clearForm() {
-        memberIdentifier.setText(null);
-        firstName.setText(null);
-        lastName.setText(null);
-        dateOfBirth.setValue(null);
+        if (!memberIdentifier.getText().equals(""))
+            memberIdentifier.setText("");
+        if (!firstName.getText().equals(""))
+            firstName.setText("");
+        if (!lastName.getText().equals(""))
+            lastName.setText("");
+        if (dateOfBirth.getValue() != null)
+            dateOfBirth.setValue(LocalDate.parse(dateOfBirth.getPromptText()));
     }
 
     private void showForm(String title) {

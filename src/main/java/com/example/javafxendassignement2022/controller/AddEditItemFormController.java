@@ -3,12 +3,9 @@ package com.example.javafxendassignement2022.controller;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.ButtonText;
-import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
-import javafx.beans.Observable;
+import com.example.javafxendassignement2022.model.Item;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,13 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AddEditItemFormController extends BaseController implements Initializable {
@@ -86,6 +83,7 @@ public class AddEditItemFormController extends BaseController implements Initial
             try {
                 validateField(title.getText().trim());
                 validateField(author.getText().trim());
+                validateCombobox(availableCombox);
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
                     itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
@@ -97,6 +95,7 @@ public class AddEditItemFormController extends BaseController implements Initial
                 clearForm();
                 operationCompleted.setValue(false);
             } catch (Exception e) {
+                e.printStackTrace();
                 notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
             }
 
@@ -107,8 +106,10 @@ public class AddEditItemFormController extends BaseController implements Initial
     }
 
     private void clearForm() {
-        title.setText(null);
-        author.setText(null);
+        if (!Objects.equals(title.getText(), ""))
+            title.setText("");
+        if (!Objects.equals(author.getText(), ""))
+            author.setText("");
     }
 
     private void showForm(String title) {
@@ -120,4 +121,9 @@ public class AddEditItemFormController extends BaseController implements Initial
         addButton.setText(buttonText.toString());
     }
 
+    private void validateCombobox(ComboBox<String> comboBox) throws Exception {
+        if(comboBox.getValue() == null){
+            throw new Exception("Availability not selected, please select availability");
+        }
+    }
 }

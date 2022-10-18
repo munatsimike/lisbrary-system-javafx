@@ -3,7 +3,7 @@ package com.example.javafxendassignement2022.service;
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.TransactionType;
-import com.example.javafxendassignement2022.exception.ItemOverdueException;
+import com.example.javafxendassignement2022.exception.ReturnDateOverdueException;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.model.Transaction;
 
@@ -14,21 +14,24 @@ public record TransactionService(ItemMemberDatabase database) {
 
     public void lend(int code, int memberIdentifier) throws Exception {
         updateAvailability(new Item(code, Availability.No), TransactionType.LEND);
+        database.getItem(code);
+        database.getMember(memberIdentifier);
         database.addRecord(new Transaction(code, memberIdentifier, LocalDate.now(), TransactionType.LEND));
     }
 
     public void receive(int code) throws Exception {
         updateAvailability(new Item(code, Availability.Yes), TransactionType.RECEIVE);
         database.addRecord(new Transaction(database.getTransactionId(), code, LocalDate.now(), TransactionType.RECEIVE));
-        if (isOverDue(code)) {
-            throw new ItemOverdueException();
+        long duration = calculateDuration(code);
+        if (duration > 21) {
+            throw new ReturnDateOverdueException(Math.toIntExact(duration));
         }
     }
 
-    private Boolean isOverDue(int itemCode) throws Exception {
+    private Long calculateDuration(int itemCode) throws Exception {
         LocalDate dateLent = database.getTransaction(itemCode).getDate();
         Duration duration = Duration.between(dateLent.atStartOfDay(), LocalDate.now().atStartOfDay());
-        return (duration.toDays() > 21);
+        return duration.toDays();
     }
 
     private void updateAvailability(Item item, TransactionType type) throws Exception {

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <VBox fx:id="vBoxParent" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
     <fx:include fx:id="notification" source="notification.fxml" />
     <GridPane hgap="20.0" prefHeight="160" vgap="20.0">
-        <TextField fx:id="title" prefWidth="400" promptText="Title" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
-        <ComboBox fx:id="availableCombox" promptText="Available" GridPane.columnIndex="2" GridPane.rowIndex="0" >
+        <TextField fx:id="title" prefHeight="26.0" prefWidth="105.0" promptText="Title" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+        <ComboBox fx:id="availableCombox" promptText="Available" GridPane.columnIndex="2" GridPane.rowIndex="0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Yes" />
@@ -18,15 +18,29 @@
                 </FXCollections>
             </items>
         </ComboBox>
-        <TextField fx:id="author" promptText="Author" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <Label fx:id="itemCode"  GridPane.columnIndex="0" GridPane.rowSpan="7" visible="false"/>
+        <TextField fx:id="author" prefHeight="26.0" prefWidth="199.0" promptText="Author" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="itemCode" visible="false" GridPane.columnIndex="0" GridPane.rowSpan="7" />
         <VBox.margin>
          <Insets top="15.0" />
       </VBox.margin>
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
 
     <HBox spacing="20">
-        <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button"/>
+        <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" />
         <Button fx:id="cancelButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Close" />
         <padding>
             <Insets bottom="20.0" right="20.0" top="20.0" />
