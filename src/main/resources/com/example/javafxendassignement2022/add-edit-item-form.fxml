@@ -19,7 +19,8 @@
             </items>
         </ComboBox>
         <TextField fx:id="author" promptText="Author" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-      <VBox.margin>
+        <Label fx:id="itemCode"  GridPane.columnIndex="0" GridPane.rowSpan="7" visible="false"/>
+        <VBox.margin>
          <Insets top="15.0" />
       </VBox.margin>
     </GridPane>

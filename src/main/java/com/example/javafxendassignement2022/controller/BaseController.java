@@ -7,11 +7,6 @@ import javafx.scene.Node;
 import java.io.IOException;
 
 public abstract class BaseController {
-    int count = 0;
-
-    public BaseController() {
-        count++;
-    }
 
     protected Node loadScene(String name, javafx.fxml.Initializable controller) {
         try {

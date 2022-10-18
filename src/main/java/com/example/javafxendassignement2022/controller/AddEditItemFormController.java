@@ -7,13 +7,16 @@ import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,12 +37,14 @@ public class AddEditItemFormController extends BaseController implements Initial
     @FXML
     private VBox vBoxParent;
     @FXML
-    TextField title;
+    private TextField title;
     @FXML
     private NotificationController notificationController;
+    @FXML
+    private Label itemCode;
     private Stage stage;
     private final ItemMemberDatabase itemDataBase;
-    private Observable observable;
+    private boolean hasItemChanged = false;
 
     public AddEditItemFormController(ItemMemberDatabase itemsDatabase) {
         this.itemDataBase = itemsDatabase;
@@ -60,6 +65,7 @@ public class AddEditItemFormController extends BaseController implements Initial
     }
 
     public void editItem(Item item) {
+        itemCode.setText(String.valueOf(item.getItemCode()));
         author.setText(item.getAuthor());
         title.setText(item.getTitle());
         availableCombox.setValue(item.getAvailable().toString());
@@ -75,12 +81,13 @@ public class AddEditItemFormController extends BaseController implements Initial
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addButton)) {
             try {
-                //isAllLetters(title.getText());
+                validateField(title.getText().trim());
+                validateField(author.getText().trim());
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
                     itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
                 } else {
-                    itemDataBase.editItem(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
+                    itemDataBase.editItem(new Item(Integer.parseInt(itemCode.getText()), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
                 }
             } catch (Exception e) {
@@ -89,8 +96,8 @@ public class AddEditItemFormController extends BaseController implements Initial
 
         } else {
             stage.hide();
+            clearForm();
         }
-        clearForm();
     }
 
     private void clearForm() {

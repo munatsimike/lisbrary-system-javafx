@@ -1,6 +1,8 @@
 package com.example.javafxendassignement2022.model;
 
 import com.example.javafxendassignement2022.enums.Availability;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -51,5 +53,9 @@ public class Item implements Serializable {
         this(itemCode, availability);
         this.title = title;
         this.author = author;
+    }
+
+    public ObservableValue changeProperty() {
+        return Bindings.concat(itemCode, available, title, author);
     }
 }

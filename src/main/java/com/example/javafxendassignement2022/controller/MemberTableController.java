@@ -85,7 +85,6 @@ public class MemberTableController extends BaseController implements Initializab
                     if (selectedMembers.size() == 1) {
                         addEditMemberController.setAddEditMemberController(ButtonText.EDIT_MEMBER);
                         editMember(selectedMembers.get(0));
-
                     } else {
                         notificationController.setNotificationText("No member selected, select a member to edit", NotificationType.Error);
                     }
