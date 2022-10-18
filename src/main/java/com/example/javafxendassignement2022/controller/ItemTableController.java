@@ -4,6 +4,7 @@ import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -48,6 +49,7 @@ public class ItemTableController extends BaseController implements Initializable
         searchQueryListener();
         formButtonListener();
         clearNotification();
+        refreshTable();
     }
 
     private void initItemFormController() {
@@ -125,6 +127,14 @@ public class ItemTableController extends BaseController implements Initializable
     private void addItem() {
         clearTableSelection();
         addEditFromController.addItem();
+    }
+
+    private void refreshTable(){
+        addEditFromController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
+            if(t1) {
+                itemTable.refresh();
+            }
+        });
     }
 }
 

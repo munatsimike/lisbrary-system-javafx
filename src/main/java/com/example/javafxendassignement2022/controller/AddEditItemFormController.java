@@ -6,6 +6,7 @@ import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -45,8 +46,10 @@ public class AddEditItemFormController extends BaseController implements Initial
     private Stage stage;
     private final ItemMemberDatabase itemDataBase;
     private boolean hasItemChanged = false;
+    public SimpleBooleanProperty operationCompleted;
 
     public AddEditItemFormController(ItemMemberDatabase itemsDatabase) {
+        operationCompleted = new SimpleBooleanProperty(false);
         this.itemDataBase = itemsDatabase;
     }
 
@@ -89,7 +92,10 @@ public class AddEditItemFormController extends BaseController implements Initial
                 } else {
                     itemDataBase.editItem(new Item(Integer.parseInt(itemCode.getText()), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
                     notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
+                    operationCompleted.setValue(true);
                 }
+                clearForm();
+                operationCompleted.setValue(false);
             } catch (Exception e) {
                 notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
             }
@@ -113,4 +119,5 @@ public class AddEditItemFormController extends BaseController implements Initial
     public void setAddEditButtonText(ButtonText buttonText) {
         addButton.setText(buttonText.toString());
     }
+
 }

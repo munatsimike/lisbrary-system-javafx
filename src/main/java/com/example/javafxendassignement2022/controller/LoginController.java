@@ -43,6 +43,7 @@ public class LoginController {
             notificationController.clearNotificationText();
             openManinWindow(usernameTxtField.getText());
         } catch (Exception e) {
+            e.printStackTrace();
             notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
         }
     }

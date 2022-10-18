@@ -4,6 +4,7 @@ import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.NotificationType;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
@@ -39,8 +41,10 @@ public class AddEditMemberFormController extends BaseController implements Initi
     NotificationController notificationController;
     private Stage stage;
     private ItemMemberDatabase memberDatabase;
+    public SimpleBooleanProperty operationCompleted;
 
     public AddEditMemberFormController(ItemMemberDatabase memberDatabase) {
+        operationCompleted = new SimpleBooleanProperty(false);
         this.memberDatabase = memberDatabase;
     }
 
@@ -73,15 +77,17 @@ public class AddEditMemberFormController extends BaseController implements Initi
             try {
                 validateField(lastName.getText().trim());
                 validateField(firstName.getText().trim());
-                LocalDate birthDay = date(dateOfBirth);
+                LocalDate birthDay = validateDate(dateOfBirth);
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
                     memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
                     notificationController.setNotificationText("Member saved successfully", NotificationType.Success);
                 } else {
                     memberDatabase.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
                     notificationController.setNotificationText("Member edited successfully", NotificationType.Success);
+                    operationCompleted.setValue(true);
                 }
                 clearForm();
+                operationCompleted.setValue(false);
             } catch (DateTimeParseException e) {
                 notificationController.setNotificationText("Invalid date format, date format should be dd/mm/yyyy", NotificationType.Error);
             } catch (Exception e) {
@@ -106,12 +112,24 @@ public class AddEditMemberFormController extends BaseController implements Initi
         stage.show();
     }
 
-    private LocalDate date(DatePicker datePicker) {
+    private LocalDate validateDate(DatePicker datePicker) throws Exception {
+        LocalDate date;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
         if (datePicker.getValue() == null) {
-            return LocalDate.parse(datePicker.getEditor().getText(), formatter);
+            date = LocalDate.parse(datePicker.getEditor().getText(), formatter);
+            calculateYears(date);
+            return date;
         }
-        return datePicker.getValue();
+        date = LocalDate.parse(datePicker.getValue().format(formatter), formatter);
+        calculateYears(date);
+        return date;
+    }
+
+    private void calculateYears(LocalDate dateOfBirth) throws Exception {
+        Period period = dateOfBirth.until(LocalDate.now());
+        if (period.getYears() < 13) {
+            throw new Exception("Members should be 12 years and above");
+        }
     }
 
     public String capitalizeFirstLetter(String str) {

@@ -14,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +58,8 @@ public class MemberTableController extends BaseController implements Initializab
         searchQueryListener();
         setSelectionMode();
         clearTableSelection();
-        formDate();
+        formatDate();
+        refreshTable();
     }
 
     private void initMemberFormController() {
@@ -67,7 +67,7 @@ public class MemberTableController extends BaseController implements Initializab
         loadScene("add-edit-member-form.fxml", addEditMemberController);
     }
 
-    private void formDate() {
+    private void formatDate() {
         dateOfBirthColumn.setCellFactory((AbstractConvertCellFactory<Member, LocalDate>)
                 value -> DateTimeFormatter.ofPattern("dd MMMM yyyy").format(value));
     }
@@ -143,5 +143,13 @@ public class MemberTableController extends BaseController implements Initializab
     private void addMember() {
         clearTableSelection();
         addEditMemberController.addMember();
+    }
+
+    private void refreshTable(){
+        addEditMemberController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
+            if(t1) {
+                membersTable.refresh();
+            }
+        });
     }
 }
