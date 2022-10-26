@@ -1,28 +1,29 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
-import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.enums.NotificationType;
+import com.example.javafxendassignement2022.exception.InvalidInput;
+import com.example.javafxendassignement2022.exception.InvalidTextLength;
+import com.example.javafxendassignement2022.exception.MemberUnderAge;
+import com.example.javafxendassignement2022.model.Member;
+import com.example.javafxendassignement2022.service.MemberService;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
+// this class contains code for the dialog form which manages members: add and edit
 public class MemberDialogFormController extends BaseController implements Initializable {
     @FXML
     private Label memberIdentifier;
@@ -38,27 +39,25 @@ public class MemberDialogFormController extends BaseController implements Initia
     private Button cancel;
     @FXML
     private DatePicker dateOfBirth;
-    @FXML
-    NotificationController notificationController;
     private Stage stage;
-    private ItemMemberDatabase memberDatabase;
-    public SimpleBooleanProperty operationCompleted;
+    private final MemberService memberService;
+    private final SimpleBooleanProperty memberEdited;
 
-    public MemberDialogFormController(ItemMemberDatabase memberDatabase) {
-        operationCompleted = new SimpleBooleanProperty(false);
-        this.memberDatabase = memberDatabase;
+    public SimpleBooleanProperty memberEditedProperty() {
+        return memberEdited;
+    }
+
+    public MemberDialogFormController(MemberService memberService) {
+        memberEdited = new SimpleBooleanProperty(false);
+        this.memberService = memberService;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Scene scene = new Scene(vBoxParent, 500, 320);
-        stage = new Stage();
-        stage.initStyle(StageStyle.UTILITY);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.centerOnScreen();
+        stage = getWindow(vBoxParent, 500, 320);
     }
 
+    // fill dialog form with selected member to be edited
     public void editMember(Member member) {
         memberIdentifier.setText(String.valueOf(member.getIdentifier()));
         firstName.setText(member.getFirstName());
@@ -68,31 +67,38 @@ public class MemberDialogFormController extends BaseController implements Initia
         showForm("Edit member");
     }
 
+    // show add dialog form
     public void addMember() {
         notificationController.clearNotificationText();
         showForm("Add member");
     }
 
+    // handle dialog form button clicks
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addMember)) {
             try {
-                validateTextLength(lastName.getText().trim());
-                validateTextLength(firstName.getText().trim());
+                // validate first and lastname
+                validateFirstLastName(lastName.getText().trim());
+                validateFirstLastName(firstName.getText().trim());
+                // process add member
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
-                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
+                    memberService.addMember(new Member(memberService.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
                     notificationController.setNotificationText("Member saved successfully", NotificationType.SUCCESS);
                 } else {
-                    memberDatabase.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
-                    notificationController.setNotificationText("Member edited successfully", NotificationType.SUCCESS);
-                    operationCompleted.setValue(true);
+                    // process edit member
+                    memberService.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
+                    stage.hide();
+                    // indicate edited has been done
+                    memberEdited.setValue(true);
                 }
                 clearForm();
-                operationCompleted.setValue(false);
+                memberEdited.setValue(false);
             } catch (DateTimeParseException e) {
                 notificationController.setNotificationText("Invalid date format, date format should be dd/mm/yyyy", NotificationType.ERROR);
-            } catch (Exception e) {
-                notificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
+            } catch (MemberUnderAge | InvalidInput | InvalidTextLength e) {
+                notificationController.setNotificationText(e.toString(), NotificationType.ERROR);
             }
+
         } else {
             clearForm();
             stage.hide();
@@ -100,6 +106,7 @@ public class MemberDialogFormController extends BaseController implements Initia
         }
     }
 
+    // clear form
     private void clearForm() {
         if (!memberIdentifier.getText().equals(""))
             memberIdentifier.setText("");
@@ -111,27 +118,23 @@ public class MemberDialogFormController extends BaseController implements Initia
             dateOfBirth.setValue(null);
     }
 
+    // show form
     private void showForm(String title) {
         stage.setTitle(title);
         stage.show();
     }
 
-    private LocalDate validateDate(DatePicker datePicker) throws Exception {
+    // validate date
+    private LocalDate validateDate(DatePicker datePicker) throws MemberUnderAge, InvalidInput {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-        if (datePicker.getValue() != null) {
+        if (datePicker.getEditor().getText() != null) {
             LocalDate birthDay = LocalDate.parse(datePicker.getEditor().getText(), formatter);
-            calculateAge(birthDay);
+            memberService.calculateAge(birthDay);
             return birthDay;
         }
-        calculateAge(Objects.requireNonNull(datePicker.getValue()));
-        return datePicker.getValue();
-    }
 
-    private void calculateAge(LocalDate dateOfBirth) throws Exception {
-        Period period = dateOfBirth.until(LocalDate.now());
-        if (period.getYears() < 13) {
-            throw new Exception("Members should be 12 years and above");
-        }
+        datePicker.getValue();
+        throw new InvalidInput("Date of birth field is empty, please enter date of birth");
     }
 
     public String capitalizeFirstLetter(String str) {
@@ -139,7 +142,17 @@ public class MemberDialogFormController extends BaseController implements Initia
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
+    // set dialog form button text
     public void setAddEditMemberController(ButtonText editMember) {
         addMember.setText(editMember.toString());
+        if (addMember.getText().equals("Edit member")) {
+            setEditButtonBackground(addMember);
+        }
+    }
+
+    // validate first name
+    private void validateFirstLastName(String name) throws InvalidTextLength, InvalidInput {
+        validateTextLength(name);
+        isAllLetters(name);
     }
 }

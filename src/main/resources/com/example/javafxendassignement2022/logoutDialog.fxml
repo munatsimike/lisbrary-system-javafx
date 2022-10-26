@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="vBoxParent" alignment="CENTER_LEFT" stylesheets="@../../../css/style.css"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.LogoutDialogController">
+    <Label text="Are you sure you want to log out">
+      <VBox.margin>
+         <Insets bottom="30.0" />
+      </VBox.margin></Label>
+    <HBox>
+        <Button fx:id="logoutButton" onAction="#onButtonClick"  text="Logout" styleClass="logout-button">
+         <HBox.margin>
+            <Insets right="50.0" />
+         </HBox.margin></Button>
+        <Button fx:id="cancelButton" onAction="#onButtonClick"  text="Cancel" styleClass="cancel-logout"/>
+    </HBox>
+   <padding>
+      <Insets left="20.0" />
+   </padding>
+</VBox>

@@ -1,25 +1,36 @@
 
-.white-text-color, .button, .h1, .cancel-button, .add-button, .delete-button{
+.white-text-color, .button, .h1, .cancel-button, .add-button:hover,
+.delete-button:hover, .clear-form-btn, .clear-form-btn:hover, .edit-button:hover,
+.close-btn:hover, .dialog-form-add-button, .logout-button, cancel-logout{
     -fx-text-fill: white;
 }
 
-.blue-background-color, .login-button, .lend-receive-button, .add-button {
+.blue-background-color, .login-button, .lend-receive-button{
     -fx-background-color: #0d5ec5;
 }
 
-.grey-background-color, .cancel-button {
+.grey-background-color, .cancel-button, .cancel-logout{
     -fx-background-color: grey;
+}
+
+.my-button-style, .clear-form-btn, .delete-button, .add-button, .edit-button,.close-btn{
+    -fx-background-color: none;
+    -fx-stroke: 2;
+    -fx-border-radius: 5;
 }
 
 .black-background-color, .menu {
     -fx-background-color: black;
 }
 
+.darkBlueBackground, .logout-button{
+    -fx-background-color: blue;
+}
 .light-blue-background-color {
     -fx-background-color: #94bad5;
 }
 
-.red-background-color, .delete-button{
+.red-background-color, .delete-button:hover, .close-btn:hover{
     -fx-background-color: red;
 }
 
@@ -27,7 +38,7 @@
     -fx-background-color: white;
 }
 
-.red-text {
+.red-text, .close-btn {
     -fx-text-fill: red;
 }
 
@@ -59,14 +70,17 @@
     -fx-max-width: 300;
 }
 
-.pref-width-150, .lend-receive-button, .menu-toggle-button {
+.pref-width-150, .login-button, .lend-receive-button, .menu-toggle-button, .clear-form-btn, .close-btn{
     -fx-pref-width: 150;
 }
 
-.pref-width-100, .login-button, .delete-button, .cancel-button, .add-button, .cancel-button {
+.pref-width-100, .delete-button, .cancel-button, .add-button, .edit-button,.dialog-form-add-button{
     -fx-pref-width: 120;
 }
 
+.pref-width-90, .logout-button, .cancel-logout{
+    -fx-pref-width: 90;
+}
 .with-200, .password-field, .text-field {
     -fx-max-width: 200;
 }
@@ -84,7 +98,8 @@
     -fx-max-width: 50;
 }
 
-.pref-height-30, .login-button, .cancel-button, .add-button, .delete-button, .cancel-button {
+.pref-height-30, .login-button, .cancel-button, .add-button,
+.delete-button, .edit-button, .clear-form-btn, .close-btn, .dialog-form-add-button, .logout-button , .cancel-logout{
     -fx-pref-height: 30;
 }
 
@@ -98,18 +113,41 @@
 }
 
 .add-button {
+    -fx-text-fill: blue;
+    -fx-border-color: blue;
 }
 
-.delete-button {
+.add-button:hover, .dialog-form-add-button{
+-fx-background-color: blue;
+}
+
+
+
+.delete-button , .close-btn{
+    -fx-text-fill: red;
+    -fx-border-color: red;
+}
+
+.edit-button, .clear-form-btn{
+    -fx-text-fill: #d94a0d;
+    -fx-border-color: #d94a0d;
+}
+.edit-button:hover, .clear-form-btn:hover{
+    -fx-background-color: #d94a0d;
 }
 
 .login-button {
 }
+.dialog-form-add-button{}
 
 .cancel-button{
 
 }
+.close-btn{
 
+}
 .h1 {
 }
 
+.logout-button {
+}

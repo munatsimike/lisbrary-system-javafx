@@ -15,10 +15,10 @@
             <Font size="25.0"/>
         </font>
     </Label>
-    <TextField fx:id="usernameTxtField" promptText="Username" text="munatsimike"/>
-    <PasswordField fx:id="passwordTxtField" promptText="Password" text="RukudzoM7*"/>
+    <TextField fx:id="usernameTxtField" promptText="Username"/>
+    <PasswordField fx:id="passwordTxtField" promptText="Password"/>
     <Button onAction="#onLoginButtonClick" styleClass="login-button" text="Login"/>
-    <Button onAction="#onCancelButtonClick" styleClass="cancel-button" text="Close"/>
+    <Button onAction="#onCloseButtonClick" styleClass="close-btn" text="Close"/>
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
     </padding>

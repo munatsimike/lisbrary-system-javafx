@@ -1,9 +1,10 @@
 package com.example.javafxendassignement2022.controller;
 
-import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
-import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
+import com.example.javafxendassignement2022.exception.FXMLLoaderError;
+import com.example.javafxendassignement2022.model.Item;
+import com.example.javafxendassignement2022.service.ItemService;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,83 +13,89 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 public class ItemTableController extends BaseController implements Initializable {
-
     @FXML
     private TableView<Item> itemTable;
-    @FXML
-    private SearchController searchController;
-    @FXML
-    private FormController formController;
-    @FXML
-    private NotificationController notificationController;
-    private ItemDialogFormController itemDialogFormController;
+    private final ItemDialogFormController itemDialogFormController;
     private ObservableList<Item> selectedItems;
     private TableView.TableViewSelectionModel<Item> selectionModel;
     private FilteredList<Item> filteredData;
-    private final ItemMemberDatabase itemsDatabase;
+    private final ItemService itemService;
 
-    public ItemTableController(ItemMemberDatabase itemDataBase) {
-        this.itemsDatabase = itemDataBase;
+    public ItemTableController(ItemService itemService, ItemDialogFormController itemDialogFormController) {
+        this.itemService = itemService;
+        this.itemDialogFormController = itemDialogFormController;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        filteredData = new FilteredList<>(itemsDatabase.getRecords(Item.class));
+        filteredData = new FilteredList<>(itemService.getItems(Item.class));
         formController.setButtonText("item");
         itemTable.setItems(filteredData);
-        initItemFormController();
-        setSelectionMode();
-        searchQueryListener();
-        formButtonListener();
-        clearNotification();
-        refreshTable();
+        onItemEdited();
+        try {
+            setSelectionMode();
+            searchQueryListener();
+            manageItemButtonListener();
+            clearNotification();
+            initItemFormController();
+        } catch (FXMLLoaderError e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initItemFormController() {
-        itemDialogFormController = new ItemDialogFormController(itemsDatabase);
+    private void initItemFormController() throws FXMLLoaderError {
         loadScene("manage-item-form.fxml", itemDialogFormController);
     }
 
-    private void formButtonListener() {
+    // handle button clicks: delete, edit , add
+    private void manageItemButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
+            // handle delete button clicks
             if (Objects.equals(newValue, formController.getDeleteButton().getText())) {
+                // check if any item is selected
                 if (selectedItems.size() == 1) {
-                    itemsDatabase.deleteRecord(selectedItems.get(0).getItemCode(),Item.class);
+                    // delete an item
+                    itemService.deleteItem(selectedItems.get(0).getItemCode(), Item.class);
                 } else {
+                    // show error message
                     notificationController.setNotificationText("No item selected, select an item to delete", NotificationType.ERROR);
                 }
+                // handle edit button clicks
             } else if (Objects.equals(newValue, formController.getEditButton().getText())) {
-                try {
-                    if (selectedItems.size() == 1) {
-                        itemDialogFormController.setAddEditButtonText(ButtonText.EDIT_ITEM);
-                        editItem(selectedItems.get(0));
-                    } else {
-                        notificationController.setNotificationText("No item selected, select an item to edit", NotificationType.ERROR);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                // check if an item is selected
+                if (selectedItems.size() == 1) {
+                    // set button text on the dialog form
+                    itemDialogFormController.setAddEditButtonText(ButtonText.EDIT_ITEM);
+                    // show item dialog form
+                    dialogFromEditItem(selectedItems.get(0));
+                } else {
+                    // show error message
+                    notificationController.setNotificationText("No item selected, select an item to edit", NotificationType.ERROR);
                 }
+                // handle add button clicks
             } else if (Objects.equals(newValue, formController.getAddButton().getText())) {
                 notificationController.clearNotificationText();
+                // set button text on the dialog form
                 itemDialogFormController.setAddEditButtonText(ButtonText.ADD_ITEM);
-                addItem();
+                // show dialog form
+                dialogFormAddItem();
             }
         }));
     }
 
+    // listen to search queries
     private void searchQueryListener() {
-        searchController.getSearchQuery().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(createPredicate(newValue));
-        });
+        searchController.getSearchQuery().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(createPredicate(newValue)));
     }
 
+    // set selection mode
     private void setSelectionMode() {
         selectionModel = itemTable.getSelectionModel();
         selectedItems = selectionModel.getSelectedItems();
@@ -96,9 +103,8 @@ public class ItemTableController extends BaseController implements Initializable
     }
 
     private void clearNotification() {
-        selectedItems.addListener((ListChangeListener<Item>) change -> {
-            notificationController.clearNotificationText();
-        });
+        selectedItems.addListener((ListChangeListener<Item>) change ->
+                notificationController.clearNotificationText());
     }
 
     // clear selected row
@@ -118,20 +124,20 @@ public class ItemTableController extends BaseController implements Initializable
         };
     }
 
-    private void editItem(Item item) throws IOException {
-        clearTableSelection();
+    // fill dialog form with selected item to edit
+    private void dialogFromEditItem(Item item) {
         itemDialogFormController.editItem(item);
     }
 
-    private void addItem() {
+    private void dialogFormAddItem() {
         clearTableSelection();
         itemDialogFormController.addItem();
     }
 
-    private void refreshTable(){
-        itemDialogFormController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
-            if(t1) {
-                itemTable.refresh();
+    private void onItemEdited() {
+        itemDialogFormController.itemEditedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (Boolean.TRUE.equals(t1)) {
+                onEditCompleted(itemTable);
             }
         });
     }

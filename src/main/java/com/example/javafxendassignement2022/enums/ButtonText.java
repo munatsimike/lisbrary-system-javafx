@@ -5,6 +5,7 @@ public enum ButtonText {
     ADD_MEMBER,
     EDIT_ITEM,
     EDIT_MEMBER;
+
     @Override
     public String toString() {
         return switch (this) {

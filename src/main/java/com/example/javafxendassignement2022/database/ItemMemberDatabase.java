@@ -2,6 +2,7 @@ package com.example.javafxendassignement2022.database;
 
 import com.example.javafxendassignement2022.enums.Availability;
 import com.example.javafxendassignement2022.enums.TransactionType;
+import com.example.javafxendassignement2022.exception.ObjectTypeNotFound;
 import com.example.javafxendassignement2022.exception.ItemNotFoundException;
 import com.example.javafxendassignement2022.exception.MemberNotFoundException;
 import com.example.javafxendassignement2022.model.Item;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import java.time.LocalDate;
 import java.util.List;
 
+// database object contains and stores items , members and transactions
 public class ItemMemberDatabase {
     ObservableList<Item> items;
     ObservableList<Member> members;
@@ -38,6 +40,7 @@ public class ItemMemberDatabase {
         members.add(new Member(5, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 17)));
     }
 
+    // add init items into the items array
     private void iniItemDatabase() {
         items = FXCollections.observableArrayList();
         items.add(new Item(1, Availability.NO, "Lord of the ring", "Tinashe"));
@@ -47,6 +50,8 @@ public class ItemMemberDatabase {
         items.add(new Item(5, Availability.YES, "Treasure Island", "Tatenda"));
     }
 
+    // return items, members  or transactions
+    @SuppressWarnings("unchecked")
     public <T> ObservableList<T> getRecords(Class<T> tClass) {
         if (tClass.equals(Item.class)) {
             return (ObservableList<T>) items;
@@ -56,6 +61,7 @@ public class ItemMemberDatabase {
         return (ObservableList<T>) transactions;
     }
 
+    // delete record
     public <T> void deleteRecord(int id, Class<T> tClass) {
         if (tClass.equals(Item.class)) {
             items.removeIf(item -> item.getItemCode() == id);
@@ -64,7 +70,8 @@ public class ItemMemberDatabase {
         }
     }
 
-    public <T> void saveListToDatabase(List<T> list) throws Exception {
+    @SuppressWarnings("unchecked")
+    public <T> void saveListToDatabase(List<T> list) throws ObjectTypeNotFound {
         if (list.get(0) instanceof Item) {
             items.clear();
             items.addAll((List<Item>) list);
@@ -75,17 +82,17 @@ public class ItemMemberDatabase {
             transactions.clear();
             transactions.addAll((List<Transaction>) list);
         } else {
-            throw new Exception("Unknown object type, list cannot be saved");
+            throw new ObjectTypeNotFound();
         }
     }
 
     public <T> void addRecord(T object) {
-        if (object instanceof Item) {
-            items.add((Item) object);
-        } else if (object instanceof Member) {
-            members.add((Member) object);
-        } else if (object instanceof Transaction) {
-            transactions.add((Transaction) object);
+        if (object instanceof Item item) {
+            items.add(item);
+        } else if (object instanceof Member member) {
+            members.add(member);
+        } else if (object instanceof Transaction transaction) {
+            transactions.add(transaction);
         }
     }
 
@@ -101,19 +108,29 @@ public class ItemMemberDatabase {
         }
     }
 
-    public Item getItem(int code) throws Exception {
+    public void isItemCodeValid(int code) throws ItemNotFoundException {
+        for (Item item : items) {
+            if (item.getItemCode() == code) {
+                return;
+            }
+        }
+        throw new ItemNotFoundException();
+    }
+
+    public void isMemberIdValid(int id) throws MemberNotFoundException {
+        for (Member member : members) {
+            if (member.getIdentifier() == id) {
+                return;
+            }
+        }
+        throw new MemberNotFoundException();
+    }
+
+    public Item getItem(int code) throws ItemNotFoundException {
         return items.stream().filter(item -> item.getItemCode() == code)
                 .findFirst()
                 .orElseThrow(ItemNotFoundException::new);
     }
-
-    public Item getMember(int code) throws Exception {
-        return items.stream().filter(item -> item.getItemCode() == code)
-                .findFirst()
-                .orElseThrow(MemberNotFoundException::new);
-    }
-
-    /**********************************/
 
     public void editMember(Member newMember) {
         for (Member oldMember : members) {
@@ -125,27 +142,25 @@ public class ItemMemberDatabase {
         }
     }
 
-    /************************************************************/
-
-    public Transaction getTransaction(int code) throws Exception {
-        return transactions.stream().filter(item -> item.getItemCode() == code)
+    public Transaction getTransaction(int itemId) throws ItemNotFoundException {
+        return transactions.stream().filter(item -> item.getItemCode() == itemId)
                 .findFirst()
                 .orElseThrow(ItemNotFoundException::new);
     }
 
     public int getTransactionId() {
-        int id = transactions.size() + 1;
-        return id++;
+        int id = transactions.size();
+        return ++id;
     }
 
     public int getMemberIdentifier() {
-        int id = members.size() + 1;
-        return id++;
+        int id = members.size();
+        return ++id;
     }
 
     public int getItemCode() {
-        int id = items.size() + 1;
-        return id++;
+        int id = items.size();
+        return ++id;
     }
 
     public void clearTransaction(int itemCode) {

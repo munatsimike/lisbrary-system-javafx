@@ -9,11 +9,13 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+// contains code for the search form
 public class SearchController implements Initializable {
     private final StringProperty searchQuery;
     @FXML
     private TextField searchTextField;
 
+    // return search query
     public StringProperty getSearchQuery() {
         return searchQuery;
     }
@@ -27,12 +29,13 @@ public class SearchController implements Initializable {
         onTextChange();
     }
 
+    // listen and handle search query text changes
     public void onTextChange() {
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchQuery.set(newValue);
-        });
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) ->
+                searchQuery.set(newValue));
     }
 
+    // set prompt text
     public void setPromptText(String promptText) {
         searchTextField.setPromptText(promptText);
     }

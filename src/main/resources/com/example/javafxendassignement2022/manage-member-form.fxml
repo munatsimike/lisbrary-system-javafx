@@ -22,7 +22,7 @@
     </GridPane>
 
     <HBox spacing="20">
-        <Button fx:id="addMember" onAction="#onButtonClick" styleClass="add-button"/>
+        <Button fx:id="addMember" onAction="#onButtonClick" styleClass="dialog-form-add-button"/>
         <Button fx:id="cancel" onAction="#onButtonClick" styleClass="cancel-button" text="Close"/>
         <padding>
             <Insets bottom="20.0" right="20.0" top="20.0"/>

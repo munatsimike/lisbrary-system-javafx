@@ -1,6 +1,7 @@
 package com.example.javafxendassignement2022.service;
 
 import com.example.javafxendassignement2022.database.ItemMemberDatabase;
+import com.example.javafxendassignement2022.exception.ObjectTypeNotFound;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.model.Transaction;
@@ -11,12 +12,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public record MainWindowService(ItemMemberDatabase database) {
+public class MainWindowService {
+    private final ItemMemberDatabase database;
+
     public MainWindowService(ItemMemberDatabase database) {
         this.database = database;
         populateDatabase();
     }
 
+    // get items, members and transactions from file and save them to database
     private void populateDatabase() {
         try {
             List<Item> items = fetchListFromFile("items", Item.class);
@@ -33,11 +37,12 @@ public record MainWindowService(ItemMemberDatabase database) {
             if (!transactions.isEmpty()) {
                 database.saveListToDatabase(transactions);
             }
-        } catch (Exception e) {
+        } catch (ObjectTypeNotFound e) {
             e.printStackTrace();
         }
     }
 
+    // save transactions, items and members to file
     public <T> void saveListToFile(String filename, List<T> list) throws IOException {
         if (Files.exists(Path.of(filename + ".dat"))) {
             Files.delete(Path.of(filename + ".dat"));
@@ -53,6 +58,7 @@ public record MainWindowService(ItemMemberDatabase database) {
         }
     }
 
+    // fetch list from file
     public <T> List<T> fetchListFromFile(String filename, Class<T> tClass) {
         List<T> items = new ArrayList<>();
 
@@ -68,11 +74,8 @@ public record MainWindowService(ItemMemberDatabase database) {
                     if (tClass.isAssignableFrom(item.getClass())) {
                         items.add(item);
                     }
-                } catch (EOFException e) {
+                } catch (EOFException | ClassNotFoundException e) {
                     break; // break out of the loop
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                    break;
                 }
             }
 

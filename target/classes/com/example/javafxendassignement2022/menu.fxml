@@ -38,14 +38,14 @@
                 <Insets right="15.0" />
             </HBox.margin>
         </HBox>
-        <VBox fx:id="imageViewContainer" onMouseClicked="#onMouseClicked" alignment="CENTER" maxHeight="55" maxWidth="60">
+        <VBox fx:id="imageViewContainer" onMouseClicked="#onLogoutClicked" alignment="CENTER" maxHeight="55" maxWidth="60">
             <ImageView  fitHeight="27.0" fitWidth="27.0">
                 <Image url="@../../../img/logout.png" />
                 <VBox.margin>
                     <Insets right="15.0" />
                 </VBox.margin>
             </ImageView>
-            <Label fx:id="logout"  onMouseClicked="#onMouseClicked" text="Logout" textFill="white">
+            <Label fx:id="logout" onMouseClicked="#onLogoutClicked" text="Logout" textFill="white">
                 <HBox.margin>
                     <Insets />
                 </HBox.margin>

@@ -15,6 +15,7 @@
         <TextField fx:id="itemCodeLend" promptText="Item Code"/>
         <TextField fx:id="memberIdentifier" promptText="Member identifier"/>
         <Button fx:id="lendItemBtn" onAction="#onButtonClick" styleClass="lend-receive-button" text="Lend Item"/>
+        <Button fx:id="clearLendFormBtn" onAction="#onButtonClick" styleClass="clear-form-btn" text="Clear form"/>
         <HBox.margin>
             <Insets right="12.0"/>
         </HBox.margin>
@@ -27,6 +28,7 @@
         <BorderPane fx:id="receiveNotificationContainer" maxHeight="35" minHeight="35"/>
         <TextField fx:id="itemCodeReceive" promptText="Item Code"/>
         <Button fx:id="receiveItemBtn" styleClass="lend-receive-button" onAction="#onButtonClick" text="Receive Item"/>
+        <Button fx:id="clearReceiveForm" styleClass="clear-form-btn" onAction="#onButtonClick" text="Clear form"/>
         <HBox.margin>
             <Insets left="12.0"/>
         </HBox.margin>

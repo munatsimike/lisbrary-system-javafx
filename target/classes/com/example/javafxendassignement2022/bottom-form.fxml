@@ -6,7 +6,7 @@
 
 <HBox fx:id="formButtonRoot" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.javafxendassignement2022.controller.FormController"
+      fx:controller="com.example.javafxendassignement2022.controller.ManageItemMemberButtons"
       alignment="CENTER_LEFT" fillHeight="false" maxHeight="85"
       minHeight="85" spacing="10.0">
     <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" text="Add ">
@@ -14,6 +14,6 @@
             <Insets left="15.0"/>
         </HBox.margin>
     </Button>
-    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="cancel-button" text="Edit "/>
+    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="edit-button" text="Edit "/>
     <Button fx:id="deleteButton" onAction="#onButtonClick" styleClass="delete-button" text="Delete "/>
 </HBox>

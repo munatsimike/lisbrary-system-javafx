@@ -6,11 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+// this class contains code that forms for the menu
 public class MenuController extends BaseController implements Initializable {
     @FXML
     public Label logout;
@@ -23,6 +25,8 @@ public class MenuController extends BaseController implements Initializable {
 
     private final StringProperty selectedBtn;
     private List<ToggleButton> menuButtons;
+
+    // return selected menu button
     public StringProperty getSelectedMenuBtn() {
         return selectedBtn;
     }
@@ -69,8 +73,9 @@ public class MenuController extends BaseController implements Initializable {
         }
     }
 
-  @FXML
-    public void onMouseClicked() {
+    @FXML
+    public void onLogoutClicked() {
         selectedBtn.setValue(logout.getText());
+        selectedBtn.setValue("");
     }
 }
