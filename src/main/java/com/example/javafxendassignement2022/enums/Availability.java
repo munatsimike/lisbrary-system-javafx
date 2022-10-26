@@ -1,13 +1,13 @@
 package com.example.javafxendassignement2022.enums;
 
 public enum Availability {
-    Yes, No;
+    YES, NO;
 
     @Override
     public String toString() {
         return switch (this) {
-            case Yes -> "Yes";
-            case No -> "No";
+            case YES -> "Yes";
+            case NO -> "No";
         };
     }
 }

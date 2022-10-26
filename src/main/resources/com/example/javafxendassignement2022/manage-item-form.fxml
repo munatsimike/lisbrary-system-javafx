@@ -41,7 +41,7 @@
 
     <HBox spacing="20">
         <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" />
-        <Button fx:id="cancelButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Close" />
+        <Button fx:id="cancelButton" onAction="#onButtonClick" styleClass="cancel-button" text="Close" />
         <padding>
             <Insets bottom="20.0" right="20.0" top="20.0" />
         </padding>

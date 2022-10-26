@@ -40,7 +40,7 @@ public class MemberTableController extends BaseController implements Initializab
     @FXML
     TableColumn<Member, LocalDate> dateOfBirthColumn;
 
-    private AddEditMemberFormController addEditMemberController;
+    private MemberDialogFormController memberDialogFromController;
     private FXMLLoader loader;
 
     public MemberTableController(ItemMemberDatabase memberDatabase) {
@@ -63,8 +63,8 @@ public class MemberTableController extends BaseController implements Initializab
     }
 
     private void initMemberFormController() {
-        addEditMemberController = new AddEditMemberFormController(memberDatabase);
-        loadScene("add-edit-member-form.fxml", addEditMemberController);
+        memberDialogFromController = new MemberDialogFormController(memberDatabase);
+        loadScene("manage-member-form.fxml", memberDialogFromController);
     }
 
     private void formatDate() {
@@ -74,25 +74,25 @@ public class MemberTableController extends BaseController implements Initializab
 
     private void formButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
-            if (Objects.equals(newValue, formController.deleteButton.getText())) {
+            if (Objects.equals(newValue, formController.getDeleteButton().getText())) {
                 if (selectedMembers.size() == 1) {
                     memberDatabase.deleteRecord(selectedMembers.get(0).getIdentifier(), Member.class);
                 } else {
-                    notificationController.setNotificationText("No member selected, select a member to delete", NotificationType.Error);
+                    notificationController.setNotificationText("No member selected, select a member to delete", NotificationType.ERROR);
                 }
-            } else if (Objects.equals(newValue, formController.editButton.getText())) {
+            } else if (Objects.equals(newValue, formController.getEditButton().getText())) {
                 try {
                     if (selectedMembers.size() == 1) {
-                        addEditMemberController.setAddEditMemberController(ButtonText.EDIT_MEMBER);
+                        memberDialogFromController.setAddEditMemberController(ButtonText.EDIT_MEMBER);
                         editMember(selectedMembers.get(0));
                     } else {
-                        notificationController.setNotificationText("No member selected, select a member to edit", NotificationType.Error);
+                        notificationController.setNotificationText("No member selected, select a member to edit", NotificationType.ERROR);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (Objects.equals(newValue, formController.addButton.getText())) {
-                addEditMemberController.setAddEditMemberController(ButtonText.ADD_MEMBER);
+            } else if (Objects.equals(newValue, formController.getAddButton().getText())) {
+                memberDialogFromController.setAddEditMemberController(ButtonText.ADD_MEMBER);
                 notificationController.clearNotificationText();
                 addMember();
             }
@@ -137,16 +137,16 @@ public class MemberTableController extends BaseController implements Initializab
 
     private void editMember(Member member) throws IOException {
         clearTableSelection();
-        addEditMemberController.editMember(member);
+        memberDialogFromController.editMember(member);
     }
 
     private void addMember() {
         clearTableSelection();
-        addEditMemberController.addMember();
+        memberDialogFromController.addMember();
     }
 
     private void refreshTable(){
-        addEditMemberController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
+        memberDialogFromController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
             if(t1) {
                 membersTable.refresh();
             }

@@ -12,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -40,12 +39,9 @@ public class LendReceiveItemController implements Initializable {
     public Button lendItemBtn;
     private NotificationController lendNotificationController;
     private NotificationController receiveNotificationController;
-    private ItemTableController itemTableController;
-    private final ItemMemberDatabase itemDatabase;
     private TransactionService transaction;
 
     public LendReceiveItemController(ItemMemberDatabase itemDataBase) {
-        this.itemDatabase = itemDataBase;
         transaction = new TransactionService(itemDataBase);
     }
 
@@ -73,29 +69,29 @@ public class LendReceiveItemController implements Initializable {
                 validateItemMemberId(itemCodeLend.getText(), TransactionType.LEND);
                 validateItemMemberId(memberIdentifier.getText(), TransactionType.LEND);
                 transaction.lend(Integer.parseInt(itemCodeLend.getText()), Integer.parseInt(memberIdentifier.getText()));
-                lendNotificationController.setNotificationText("Item lent successfully", NotificationType.Success);
+                lendNotificationController.setNotificationText("Item lent successfully", NotificationType.SUCCESS);
                 clearLendForm();
             } else {
                 validateItemMemberId(itemCodeReceive.getText(), TransactionType.RECEIVE);
                 transaction.receive(Integer.parseInt(itemCodeReceive.getText()));
-                receiveNotificationController.setNotificationText("Item successfully received and now available", NotificationType.Success);
+                receiveNotificationController.setNotificationText("Item successfully received and now available", NotificationType.SUCCESS);
                 clearReceiveForm();
             }
         } catch (ReturnDateOverdueException e) {
-            receiveNotificationController.setNotificationText(e.toString(), NotificationType.Info);
+            receiveNotificationController.setNotificationText(e.toString(), NotificationType.INFO);
         } catch (ItemNotFoundException | MemberNotFoundException e) {
             if (actionEvent.getSource().equals(lendItemBtn)) {
-                lendNotificationController.setNotificationText(e.toString(), NotificationType.Error);
+                lendNotificationController.setNotificationText(e.toString(), NotificationType.ERROR);
             } else {
-                receiveNotificationController.setNotificationText(e.toString(), NotificationType.Error);
+                receiveNotificationController.setNotificationText(e.toString(), NotificationType.ERROR);
             }
         } catch (Exception e) {
             if (actionEvent.getSource().equals(lendItemBtn)) {
-                lendNotificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                lendNotificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
                 receiveNotificationController.clearNotificationText();
                 clearReceiveForm();
             } else {
-                receiveNotificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                receiveNotificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
                 lendNotificationController.clearNotificationText();
                 clearLendForm();
             }

@@ -28,7 +28,7 @@ public class SearchController implements Initializable {
     }
 
     public void onTextChange() {
-        searchTextField.textProperty().addListener((Observable, oldValue, newValue) -> {
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             searchQuery.set(newValue);
         });
     }

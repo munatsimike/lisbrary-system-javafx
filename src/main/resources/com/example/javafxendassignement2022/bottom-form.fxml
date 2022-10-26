@@ -4,16 +4,16 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox xmlns="http://javafx.com/javafx"
+<HBox fx:id="formButtonRoot" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.javafxendassignement2022.controller.FormController"
       alignment="CENTER_LEFT" fillHeight="false" maxHeight="85"
-      minHeight="85" spacing="10.0" styleClass="light-blue-background-color">
+      minHeight="85" spacing="10.0">
     <Button fx:id="addButton" onAction="#onButtonClick" styleClass="add-button" text="Add ">
         <HBox.margin>
             <Insets left="15.0"/>
         </HBox.margin>
     </Button>
-    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Edit "/>
+    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="cancel-button" text="Edit "/>
     <Button fx:id="deleteButton" onAction="#onButtonClick" styleClass="delete-button" text="Delete "/>
 </HBox>

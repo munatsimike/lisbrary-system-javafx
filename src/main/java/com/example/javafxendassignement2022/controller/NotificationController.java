@@ -29,15 +29,15 @@ public class NotificationController {
     }
 
     private void showHideLabel() {
-        notificationLabel.textProperty().addListener((Observable, oldText, newText) -> {
-            hBoxParent.setVisible(newText != "");
+        notificationLabel.textProperty().addListener((observable, oldText, newText) -> {
+            hBoxParent.setVisible(!newText.equals(""));
         });
     }
 
     private void notificationBackgroundColor(NotificationType messageType) {
-        if (messageType.equals(NotificationType.Error)) {
+        if (messageType.equals(NotificationType.ERROR)) {
             hBoxParent.setStyle("-fx-background-color: rgba(255,0,0,0.61)");
-        } else if (messageType.equals(NotificationType.Success)){
+        } else if (messageType.equals(NotificationType.SUCCESS)){
             hBoxParent.setStyle("-fx-background-color: rgba(0,128,0,0.62)");
         }else{
             hBoxParent.setStyle("-fx-background-color: rgb(95,14,171)");

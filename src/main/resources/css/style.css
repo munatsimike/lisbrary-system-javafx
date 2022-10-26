@@ -1,5 +1,5 @@
 
-.white-text-color, .button, .h1, .edit-cancel-button, .add-button, .delete-button, .cancel-button{
+.white-text-color, .button, .h1, .cancel-button, .add-button, .delete-button{
     -fx-text-fill: white;
 }
 
@@ -7,7 +7,7 @@
     -fx-background-color: #0d5ec5;
 }
 
-.grey-background-color, .edit-cancel-button {
+.grey-background-color, .cancel-button {
     -fx-background-color: grey;
 }
 
@@ -19,7 +19,7 @@
     -fx-background-color: #94bad5;
 }
 
-.red-background-color, .delete-button, .cancel-button{
+.red-background-color, .delete-button{
     -fx-background-color: red;
 }
 
@@ -63,7 +63,7 @@
     -fx-pref-width: 150;
 }
 
-.pref-width-100, .login-button, .delete-button, .edit-cancel-button, .add-button, .cancel-button {
+.pref-width-100, .login-button, .delete-button, .cancel-button, .add-button, .cancel-button {
     -fx-pref-width: 120;
 }
 
@@ -84,7 +84,7 @@
     -fx-max-width: 50;
 }
 
-.pref-height-30, .login-button, .edit-cancel-button, .add-button, .delete-button, .cancel-button {
+.pref-height-30, .login-button, .cancel-button, .add-button, .delete-button, .cancel-button {
     -fx-pref-height: 30;
 }
 
@@ -94,7 +94,7 @@
 .lend-receive-button {
 }
 
-.edit-cancel-button {
+.cancel-button {
 }
 
 .add-button {

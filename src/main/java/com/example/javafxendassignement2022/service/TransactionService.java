@@ -13,19 +13,25 @@ import java.time.LocalDate;
 public record TransactionService(ItemMemberDatabase database) {
 
     public void lend(int code, int memberIdentifier) throws Exception {
-        updateAvailability(new Item(code, Availability.No), TransactionType.LEND);
+        updateAvailability(new Item(code, Availability.NO), TransactionType.LEND);
         database.getItem(code);
         database.getMember(memberIdentifier);
         database.addRecord(new Transaction(code, memberIdentifier, LocalDate.now(), TransactionType.LEND));
     }
 
     public void receive(int code) throws Exception {
-        updateAvailability(new Item(code, Availability.Yes), TransactionType.RECEIVE);
+        updateAvailability(new Item(code, Availability.YES), TransactionType.RECEIVE);
+        clearLandingDate(code);
         database.addRecord(new Transaction(database.getTransactionId(), code, LocalDate.now(), TransactionType.RECEIVE));
         long duration = calculateDuration(code);
         if (duration > 21) {
             throw new ReturnDateOverdueException(Math.toIntExact(duration));
         }
+
+    }
+
+    private void clearLandingDate(int itemCode){
+        database.clearTransaction(itemCode);
     }
 
     private Long calculateDuration(int itemCode) throws Exception {

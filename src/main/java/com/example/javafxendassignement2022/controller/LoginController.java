@@ -39,16 +39,15 @@ public class LoginController {
         try {
             validateUserName(usernameTxtField.getText());
             validatePassword(passwordTxtField.getText());
-            loginService.login(new User(usernameTxtField.getText(), passwordTxtField.getText()));
+            User user = loginService.getUser(new User(usernameTxtField.getText(), passwordTxtField.getText()));
             notificationController.clearNotificationText();
-            openManinWindow(usernameTxtField.getText());
+            openManinWindow(user);
         } catch (Exception e) {
-            e.printStackTrace();
-            notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+            notificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
         }
     }
 
-    private void openManinWindow(String loggedInUser) throws IOException {
+    private void openManinWindow(User loggedInUser) throws IOException {
         Stage stage = (Stage) vBox.getScene().getWindow();
         MainWindowController mainWindowController = new MainWindowController(loggedInUser, stage);
         mainWindowController.showMainWindow();

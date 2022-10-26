@@ -14,6 +14,6 @@
             <Insets left="15.0"/>
         </HBox.margin>
     </Button>
-    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="edit-cancel-button" text="Edit member"/>
+    <Button fx:id="editButton" onAction="#onButtonClick" styleClass="cancel-button" text="Edit member"/>
     <Button fx:id="deleteButton" onAction="#onButtonClick" styleClass="delete-button" text="Delete member"/>
 </HBox>

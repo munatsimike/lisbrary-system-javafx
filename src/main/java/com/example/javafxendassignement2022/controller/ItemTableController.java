@@ -4,7 +4,6 @@ import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.enums.ButtonText;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.enums.NotificationType;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -29,7 +28,7 @@ public class ItemTableController extends BaseController implements Initializable
     private FormController formController;
     @FXML
     private NotificationController notificationController;
-    private AddEditItemFormController addEditFromController;
+    private ItemDialogFormController itemDialogFormController;
     private ObservableList<Item> selectedItems;
     private TableView.TableViewSelectionModel<Item> selectionModel;
     private FilteredList<Item> filteredData;
@@ -53,32 +52,32 @@ public class ItemTableController extends BaseController implements Initializable
     }
 
     private void initItemFormController() {
-        addEditFromController = new AddEditItemFormController(itemsDatabase);
-        loadScene("add-edit-item-form.fxml", addEditFromController);
+        itemDialogFormController = new ItemDialogFormController(itemsDatabase);
+        loadScene("manage-item-form.fxml", itemDialogFormController);
     }
 
     private void formButtonListener() {
         formController.selectedButton().addListener(((observable, oldValue, newValue) -> {
-            if (Objects.equals(newValue, formController.deleteButton.getText())) {
+            if (Objects.equals(newValue, formController.getDeleteButton().getText())) {
                 if (selectedItems.size() == 1) {
                     itemsDatabase.deleteRecord(selectedItems.get(0).getItemCode(),Item.class);
                 } else {
-                    notificationController.setNotificationText("No item selected, select an item to delete", NotificationType.Error);
+                    notificationController.setNotificationText("No item selected, select an item to delete", NotificationType.ERROR);
                 }
-            } else if (Objects.equals(newValue, formController.editButton.getText())) {
+            } else if (Objects.equals(newValue, formController.getEditButton().getText())) {
                 try {
                     if (selectedItems.size() == 1) {
-                        addEditFromController.setAddEditButtonText(ButtonText.EDIT_ITEM);
+                        itemDialogFormController.setAddEditButtonText(ButtonText.EDIT_ITEM);
                         editItem(selectedItems.get(0));
                     } else {
-                        notificationController.setNotificationText("No item selected, select an item to edit", NotificationType.Error);
+                        notificationController.setNotificationText("No item selected, select an item to edit", NotificationType.ERROR);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (Objects.equals(newValue, formController.addButton.getText())) {
+            } else if (Objects.equals(newValue, formController.getAddButton().getText())) {
                 notificationController.clearNotificationText();
-                addEditFromController.setAddEditButtonText(ButtonText.ADD_ITEM);
+                itemDialogFormController.setAddEditButtonText(ButtonText.ADD_ITEM);
                 addItem();
             }
         }));
@@ -121,16 +120,16 @@ public class ItemTableController extends BaseController implements Initializable
 
     private void editItem(Item item) throws IOException {
         clearTableSelection();
-        addEditFromController.editItem(item);
+        itemDialogFormController.editItem(item);
     }
 
     private void addItem() {
         clearTableSelection();
-        addEditFromController.addItem();
+        itemDialogFormController.addItem();
     }
 
     private void refreshTable(){
-        addEditFromController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
+        itemDialogFormController.operationCompleted.addListener((observableValue, aBoolean, t1) -> {
             if(t1) {
                 itemTable.refresh();
             }

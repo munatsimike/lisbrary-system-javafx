@@ -5,6 +5,7 @@ import com.example.javafxendassignement2022.database.ItemMemberDatabase;
 import com.example.javafxendassignement2022.model.Item;
 import com.example.javafxendassignement2022.model.Member;
 import com.example.javafxendassignement2022.model.Transaction;
+import com.example.javafxendassignement2022.model.User;
 import com.example.javafxendassignement2022.service.MainWindowService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -37,14 +37,13 @@ public class MainWindowController extends BaseController implements Initializabl
     private LendReceiveItemController lendReceiveItemController;
     private MainWindowService mainWindowService;
 
-
-    public MainWindowController(String welcomeText, Stage stage) throws IOException {
+    public MainWindowController(User user, Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LibrarySystem.class.getResource(
                 "main-window.fxml"));
         fxmlLoader.setController(this);
         fxmlLoader.load();
         this.stage = stage;
-        welcomeLabel.setText("Welcome " + welcomeText);
+        welcomeLabel.setText("Welcome" + " " + user.getFirstName() + " " + user.getLastName());
         borderPane.setCenter(loadScene("lend-receive-item-form.fxml", lendReceiveItemController));
     }
 
@@ -59,7 +58,7 @@ public class MainWindowController extends BaseController implements Initializabl
     }
 
     private void observeMenuItemChanges() {
-        menuController.getSelectedMenuBtn().addListener((Observable, oldValue, newValue) -> {
+        menuController.getSelectedMenuBtn().addListener((observable, oldValue, newValue) -> {
             try {
                 navigationGraph(newValue);
             } catch (IOException e) {

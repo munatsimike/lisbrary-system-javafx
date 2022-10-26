@@ -5,10 +5,10 @@ import com.example.javafxendassignement2022.model.User;
 
 public record LoginService(UserDatabase userDatabase) {
 
-    public void login(User user) throws Exception {
+    public User getUser(User user) throws Exception {
         validateUserName(user.getUsername());
         validatePassword(user.getPassword());
-        userDatabase.login(user);
+        return userDatabase.getUser(user);
     }
 
     private void validatePassword(String password) throws Exception {

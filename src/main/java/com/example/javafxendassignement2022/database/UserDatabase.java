@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDatabase {
-    public List<User> users = new ArrayList<>();
+    public  final List<User> users = new ArrayList<>();
 
     public UserDatabase() {
-        users.add(new User("munatsimike", "RukudzoM7*"));
-        users.add(new User("someuser", "RukudzoM7*"));
+        users.add(new User("munatsimike", "RukudzoM7*", "John", "Poke"));
+        users.add(new User("someuser", "RukudzoM7*", "Michael", "Munatsi"));
     }
 
-    public void login(User user) throws Exception {
+    public User getUser(User user) throws Exception {
         for (User user1 : users) {
-            if (!user1.getUsername().equals(user.getUsername())) {
-                return;
+            if (!user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getPassword())) {
+                return user1;
             }
         }
-        throw new Exception("User not registered");
+        throw new Exception("Username and password combination not found");
     }
 }

@@ -31,20 +31,20 @@ public class ItemMemberDatabase {
 
     private void initMemberDatabase() {
         members = FXCollections.observableArrayList();
-        members.add(new Member(1, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 18)));
-        members.add(new Member(2, "John", "RukudzoM7", LocalDate.of(2022, 10, 17)));
-        members.add(new Member(3, "Peter", "RukudzoM7", LocalDate.of(2022, 10, 17)));
-        members.add(new Member(4, "Simon", "RukudzoM7", LocalDate.of(2022, 10, 19)));
+        members.add(new Member(1, "Michael", "Tim", LocalDate.of(2022, 10, 18)));
+        members.add(new Member(2, "John", "Thom", LocalDate.of(2022, 10, 17)));
+        members.add(new Member(3, "Peter", "Jon", LocalDate.of(2022, 10, 17)));
+        members.add(new Member(4, "Simon", "Joe", LocalDate.of(2022, 10, 19)));
         members.add(new Member(5, "Michael", "RukudzoM7", LocalDate.of(2022, 10, 17)));
     }
 
     private void iniItemDatabase() {
         items = FXCollections.observableArrayList();
-        items.add(new Item(1, Availability.No, "12345678", "Tinashe"));
-        items.add(new Item(2, Availability.Yes, "RukudzoM7", "Student"));
-        items.add(new Item(3, Availability.No, "12345678", "Tariro"));
-        items.add(new Item(4, Availability.No, "12345678", "Student"));
-        items.add(new Item(5, Availability.Yes, "12345678", "Tatenda"));
+        items.add(new Item(1, Availability.NO, "Lord of the ring", "Tinashe"));
+        items.add(new Item(2, Availability.YES, "The femine", "Student"));
+        items.add(new Item(3, Availability.NO, "Monarch", "Tariro"));
+        items.add(new Item(4, Availability.NO, "The Island", "Student"));
+        items.add(new Item(5, Availability.YES, "Treasure Island", "Tatenda"));
     }
 
     public <T> ObservableList<T> getRecords(Class<T> tClass) {
@@ -148,4 +148,12 @@ public class ItemMemberDatabase {
         return id++;
     }
 
+    public void clearTransaction(int itemCode) {
+        for (Transaction transaction : transactions) {
+            if (transaction.getItemCode() == itemCode && transaction.getTransactionType() == TransactionType.LEND) {
+                transactions.remove(transaction);
+                return;
+            }
+        }
+    }
 }

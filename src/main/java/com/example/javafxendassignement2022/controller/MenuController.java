@@ -6,14 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
-
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MenuController implements Initializable {
+public class MenuController extends BaseController implements Initializable {
     @FXML
     public Label logout;
     @FXML
@@ -35,6 +33,7 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // by default the lending and receiving form will be selected
         lendingReceiving.setSelected(true);
         menuButtons = List.of(collection, members, lendingReceiving);
         onActionHandler();
@@ -50,6 +49,7 @@ public class MenuController implements Initializable {
         } else if (collection.isSelected()) {
             selectedBtn.set(collection.getText());
             changBackgroundColor(collection);
+            // check if the lending and receiving form is selected
         } else if (lendingReceiving.isSelected()) {
             selectedBtn.set(lendingReceiving.getText());
             changBackgroundColor(lendingReceiving);
@@ -60,17 +60,17 @@ public class MenuController implements Initializable {
     public void changBackgroundColor(ToggleButton button) {
         for (ToggleButton btn : menuButtons) {
             if (Objects.equals(btn.getText(), button.getText())) {
-                if (!btn.getStyleClass().contains("light-blue-background-color")) {
-                    btn.getStyleClass().add("light-blue-background-color");
+                if (!btn.getStyleClass().contains(LIGHT_BLUE_BACKGROUND)) {
+                    btn.getStyleClass().add(LIGHT_BLUE_BACKGROUND);
                 }
             } else {
-                btn.getStyleClass().remove("light-blue-background-color");
+                btn.getStyleClass().remove(LIGHT_BLUE_BACKGROUND);
             }
         }
     }
 
   @FXML
-    public void onMouseClicked(MouseEvent mouseEvent) {
+    public void onMouseClicked() {
         selectedBtn.setValue(logout.getText());
     }
 }

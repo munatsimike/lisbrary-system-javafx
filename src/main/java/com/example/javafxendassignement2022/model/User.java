@@ -1,8 +1,19 @@
 package com.example.javafxendassignement2022.model;
 
-public class User {
+public class User extends Person {
     private String username;
     private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, String firstName, String lastName) {
+        super(firstName, lastName);
+        this.username = username;
+        this.password = password;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -20,8 +31,5 @@ public class User {
         return password;
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+
 }

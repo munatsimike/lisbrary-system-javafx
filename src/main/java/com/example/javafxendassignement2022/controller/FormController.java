@@ -5,15 +5,30 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
 public class FormController  {
     private final StringProperty selectedButton;
     @FXML
-    public Button deleteButton;
+    private Button deleteButton;
     @FXML
-    public Button editButton;
+    private Button editButton;
     @FXML
-    public Button addButton;
+    private Button addButton;
+    @FXML
+    private HBox formButtonRoot;
+
+    public Button getDeleteButton() {
+        return deleteButton;
+    }
+
+    public Button getEditButton() {
+        return editButton;
+    }
+
+    public Button getAddButton() {
+        return addButton;
+    }
 
     public StringProperty selectedButton() {
         return selectedButton;
@@ -27,6 +42,10 @@ public class FormController  {
         deleteButton.setText(deleteButton.getText() + name);
         editButton.setText(editButton.getText() + name);
         addButton.setText(addButton.getText() + name);
+    }
+
+    public void showHideButtons(){
+        formButtonRoot.setVisible(false);
     }
 
     public void onButtonClick(ActionEvent actionEvent) {

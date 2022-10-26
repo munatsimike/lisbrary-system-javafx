@@ -20,9 +20,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class AddEditMemberFormController extends BaseController implements Initializable {
+public class MemberDialogFormController extends BaseController implements Initializable {
     @FXML
     private Label memberIdentifier;
     @FXML
@@ -43,7 +44,7 @@ public class AddEditMemberFormController extends BaseController implements Initi
     private ItemMemberDatabase memberDatabase;
     public SimpleBooleanProperty operationCompleted;
 
-    public AddEditMemberFormController(ItemMemberDatabase memberDatabase) {
+    public MemberDialogFormController(ItemMemberDatabase memberDatabase) {
         operationCompleted = new SimpleBooleanProperty(false);
         this.memberDatabase = memberDatabase;
     }
@@ -75,23 +76,22 @@ public class AddEditMemberFormController extends BaseController implements Initi
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addMember)) {
             try {
-                validateField(lastName.getText().trim());
-                validateField(firstName.getText().trim());
-                LocalDate birthDay = validateDate(dateOfBirth);
+                validateTextLength(lastName.getText().trim());
+                validateTextLength(firstName.getText().trim());
                 if (addMember.getText().equals(ButtonText.ADD_MEMBER.toString())) {
-                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
-                    notificationController.setNotificationText("Member saved successfully", NotificationType.Success);
+                    memberDatabase.addRecord(new Member(memberDatabase.getMemberIdentifier(), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
+                    notificationController.setNotificationText("Member saved successfully", NotificationType.SUCCESS);
                 } else {
-                    memberDatabase.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), birthDay));
-                    notificationController.setNotificationText("Member edited successfully", NotificationType.Success);
+                    memberDatabase.editMember(new Member(Integer.parseInt(memberIdentifier.getText()), capitalizeFirstLetter(firstName.getText()), capitalizeFirstLetter(lastName.getText()), validateDate(dateOfBirth)));
+                    notificationController.setNotificationText("Member edited successfully", NotificationType.SUCCESS);
                     operationCompleted.setValue(true);
                 }
                 clearForm();
                 operationCompleted.setValue(false);
             } catch (DateTimeParseException e) {
-                notificationController.setNotificationText("Invalid date format, date format should be dd/mm/yyyy", NotificationType.Error);
+                notificationController.setNotificationText("Invalid date format, date format should be dd/mm/yyyy", NotificationType.ERROR);
             } catch (Exception e) {
-                notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                notificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
             }
         } else {
             clearForm();
@@ -107,8 +107,8 @@ public class AddEditMemberFormController extends BaseController implements Initi
             firstName.setText("");
         if (!lastName.getText().equals(""))
             lastName.setText("");
-        if (dateOfBirth.getValue() != null)
-            dateOfBirth.setValue(LocalDate.parse(dateOfBirth.getPromptText()));
+        if (dateOfBirth.getValue() != null || dateOfBirth.getEditor().getText() != null)
+            dateOfBirth.setValue(null);
     }
 
     private void showForm(String title) {
@@ -117,19 +117,17 @@ public class AddEditMemberFormController extends BaseController implements Initi
     }
 
     private LocalDate validateDate(DatePicker datePicker) throws Exception {
-        LocalDate date;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
-        if (datePicker.getValue() == null) {
-            date = LocalDate.parse(datePicker.getEditor().getText(), formatter);
-            calculateYears(date);
-            return date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        if (datePicker.getValue() != null) {
+            LocalDate birthDay = LocalDate.parse(datePicker.getEditor().getText(), formatter);
+            calculateAge(birthDay);
+            return birthDay;
         }
-        date = LocalDate.parse(datePicker.getValue().format(formatter), formatter);
-        calculateYears(date);
-        return date;
+        calculateAge(Objects.requireNonNull(datePicker.getValue()));
+        return datePicker.getValue();
     }
 
-    private void calculateYears(LocalDate dateOfBirth) throws Exception {
+    private void calculateAge(LocalDate dateOfBirth) throws Exception {
         Period period = dateOfBirth.until(LocalDate.now());
         if (period.getYears() < 13) {
             throw new Exception("Members should be 12 years and above");

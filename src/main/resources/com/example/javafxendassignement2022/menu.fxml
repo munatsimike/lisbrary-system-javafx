@@ -5,8 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="67.0" styleClass="black-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MenuController">
-
+<HBox maxHeight="67.0" styleClass="black-background-color" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxendassignement2022.controller.MenuController">
     <HBox alignment="CENTER" minHeight="100.0">
         <ImageView fitHeight="50.0" fitWidth="50.0">
             <Image url="@../../../img/logo.png" />

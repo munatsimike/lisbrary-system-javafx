@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class AddEditItemFormController extends BaseController implements Initializable {
+public class ItemDialogFormController extends BaseController implements Initializable {
     @FXML
     private ComboBox<String> availableCombox;
     @FXML
@@ -45,7 +45,7 @@ public class AddEditItemFormController extends BaseController implements Initial
     private boolean hasItemChanged = false;
     public SimpleBooleanProperty operationCompleted;
 
-    public AddEditItemFormController(ItemMemberDatabase itemsDatabase) {
+    public ItemDialogFormController(ItemMemberDatabase itemsDatabase) {
         operationCompleted = new SimpleBooleanProperty(false);
         this.itemDataBase = itemsDatabase;
     }
@@ -81,22 +81,22 @@ public class AddEditItemFormController extends BaseController implements Initial
     public void onButtonClick(ActionEvent actionEvent) {
         if (actionEvent.getSource().equals(addButton)) {
             try {
-                validateField(title.getText().trim());
-                validateField(author.getText().trim());
-                validateCombobox(availableCombox);
+                validateTitle(title.getText().trim());
+                validateAuthor(author.getText().trim());
+                validateAvailability(availableCombox);
                 if (addButton.getText().equals(ButtonText.ADD_ITEM.toString())) {
-                    itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
-                    notificationController.setNotificationText("Item saved successfully", NotificationType.Success);
+                    itemDataBase.addRecord(new Item(itemDataBase.getItemCode(), Availability.valueOf(availableCombox.getValue().toUpperCase()), title.getText(), author.getText()));
+                    notificationController.setNotificationText("Item saved successfully", NotificationType.SUCCESS);
                 } else {
-                    itemDataBase.editItem(new Item(Integer.parseInt(itemCode.getText()), Availability.valueOf(availableCombox.getValue()), title.getText(), author.getText()));
-                    notificationController.setNotificationText("Item edited successfully", NotificationType.Success);
+                    itemDataBase.editItem(new Item(Integer.parseInt(itemCode.getText()), Availability.valueOf(availableCombox.getValue().toUpperCase()), title.getText(), author.getText()));
+                    notificationController.setNotificationText("Item edited successfully", NotificationType.SUCCESS);
                     operationCompleted.setValue(true);
                 }
                 clearForm();
                 operationCompleted.setValue(false);
             } catch (Exception e) {
                 e.printStackTrace();
-                notificationController.setNotificationText(e.getMessage(), NotificationType.Error);
+                notificationController.setNotificationText(e.getMessage(), NotificationType.ERROR);
             }
 
         } else {
@@ -121,9 +121,23 @@ public class AddEditItemFormController extends BaseController implements Initial
         addButton.setText(buttonText.toString());
     }
 
-    private void validateCombobox(ComboBox<String> comboBox) throws Exception {
+    private void validateAvailability(ComboBox<String> comboBox) throws Exception {
         if(comboBox.getValue() == null){
             throw new Exception("Availability not selected, please select availability");
+        }
+    }
+
+    private void validateAuthor(String author) throws Exception {
+        validateTextLength(author);
+        isAllLetters(author);
+    }
+
+    private void validateTitle(String title) throws Exception {
+        validateTextLength(title);
+        for (char c: title.toCharArray()) {
+            if(!Character.isDigit(c) && !Character.isLetter(c) && !Character.isSpaceChar(c)){
+                throw new Exception("Only letters numbers or space character are allowed for title");
+            }
         }
     }
 }

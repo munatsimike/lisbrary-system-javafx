@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Transaction implements Serializable {
     int transactionId;
-    int ItemCode;
+    int itemCode;
     int memberIdentifier;
     LocalDate date;
     TransactionType transactionType;
@@ -16,7 +16,7 @@ public class Transaction implements Serializable {
     }
 
     public int getItemCode() {
-        return ItemCode;
+        return itemCode;
     }
 
     public int getMemberIdentifier() {
@@ -40,7 +40,7 @@ public class Transaction implements Serializable {
     }
 
     public Transaction(int itemCode, LocalDate date, TransactionType transactionType) {
-        ItemCode = itemCode;
+        this.itemCode = itemCode;
         this.date = date;
         this.transactionType = transactionType;
     }
